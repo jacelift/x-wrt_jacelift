@@ -37,7 +37,10 @@ platform_do_upgrade() {
 
 	case "$board" in
 	hc5962|\
-	r6220|\
+	netgear,r6220|\
+	netgear,r6220a|\
+	netgear,r6220b|\
+	netgear,r6220c|\
 	netgear,r6350|\
 	ubnt-erx|\
 	ubnt-erx-sfp|\
