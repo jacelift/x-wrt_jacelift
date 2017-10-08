@@ -323,7 +323,7 @@ define Device/puppies
 endef
 TARGET_DEVICES += puppies
 
-define Device/r6220
+define Device/netgear_r6220
   DTS := R6220
   BLOCKSIZE := 128k
   PAGESIZE := 2048
@@ -334,11 +334,27 @@ define Device/r6220
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   IMAGE/kernel.bin := append-kernel
   IMAGE/rootfs.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
-  DEVICE_TITLE := Netgear R6220
+  DEVICE_TITLE := Netgear R6220 (0x2e0)
   DEVICE_PACKAGES := \
 	kmod-mt7603 kmod-mt76x2 kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic
+  SUPPORTED_DEVICES += r6220 netgear_r6220a netgear_r6220b netgear_r6220c netgear_r6220
 endef
-TARGET_DEVICES += r6220
+define Device/netgear_r6220a
+  $(Device/netgear_r6220)
+  DTS := R6220A
+  DEVICE_TITLE := Netgear R6220A (0x2de)
+endef
+define Device/netgear_r6220b
+  $(Device/netgear_r6220)
+  DTS := R6220B
+  DEVICE_TITLE := Netgear R6220B (0x2da)
+endef
+define Device/netgear_r6220c
+  $(Device/netgear_r6220)
+  DTS := R6220C
+  DEVICE_TITLE := Netgear R6220C (0x2dc)
+endef
+TARGET_DEVICES += netgear_r6220 netgear_r6220a netgear_r6220b netgear_r6220c
 
 define Device/netgear_ex6150
   DTS := EX6150
