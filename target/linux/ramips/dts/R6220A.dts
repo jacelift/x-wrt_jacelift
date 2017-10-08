@@ -1,0 +1,14 @@
+/dts-v1/;
+
+#include "R6220.dts"
+
+/ {
+	compatible = "netgear,r6220a", "mediatek,mt7621-soc";
+	model = "Netgear R6220A";
+};
+
+&factory {
+	label = "factory";
+	reg = <0x2de0000 0x100000>;
+	read-only;
+};
