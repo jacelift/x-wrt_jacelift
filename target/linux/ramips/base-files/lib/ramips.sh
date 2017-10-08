@@ -415,9 +415,6 @@ ramips_board_detect() {
 	*"Q7")
 		name="zte-q7"
 		;;
-	*"R6220")
-		name="r6220"
-		;;
 	*"RE350 v1")
 		name="re350-v1"
 		;;
