@@ -323,7 +323,7 @@ define Device/puppies
 endef
 TARGET_DEVICES += puppies
 
-define Device/r6220
+define Device/netgear_r6220
   DTS := R6220
   BLOCKSIZE := 128k
   PAGESIZE := 2048
@@ -337,8 +337,9 @@ define Device/r6220
   DEVICE_TITLE := Netgear R6220
   DEVICE_PACKAGES := \
 	kmod-mt7603 kmod-mt76x2 kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic
+  SUPPORTED_DEVICES += r6220 netgear,r6220a netgear,r6220b netgear,r6220c netgear,r6220
 endef
-TARGET_DEVICES += r6220
+TARGET_DEVICES += netgear_r6220
 
 define Device/netgear_ex6150
   DTS := EX6150
