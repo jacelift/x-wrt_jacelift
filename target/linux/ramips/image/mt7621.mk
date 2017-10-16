@@ -231,7 +231,7 @@ TARGET_DEVICES += iodata_wn-gx300gr
 define Device/k2p
   DTS := K2P
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
-  DEVICE_TITLE := Phicomm K2P
+  DEVICE_TITLE := Phicomm K2P (no wifi)
 endef
 TARGET_DEVICES += k2p
 
@@ -242,7 +242,7 @@ define Device/xiaomi_mir3p
   KERNEL_SIZE:= 4096k
   UBINIZE_OPTS := -E 5
   IMAGE_SIZE := $(ralink_default_fw_size_32M)
-  DEVICE_TITLE := Xiaomi Mi Router 3 Pro
+  DEVICE_TITLE := Xiaomi Mi Router 3 Pro (no wifi)
   IMAGES += factory.bin
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
