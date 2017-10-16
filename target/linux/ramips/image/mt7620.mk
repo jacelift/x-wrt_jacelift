@@ -656,7 +656,7 @@ TARGET_DEVICES += phicomm_k2g
 define Device/phicomm_psg1208
   MTK_SOC := mt7620a
   DEVICE_VENDOR := Phicomm
-  DEVICE_MODEL := PSG1208
+  DEVICE_MODEL := PSG1208 (K1)
   DEVICE_PACKAGES := kmod-mt76x2
   SUPPORTED_DEVICES += psg1208
 endef
@@ -665,7 +665,7 @@ TARGET_DEVICES += phicomm_psg1208
 define Device/phicomm_psg1218a
   MTK_SOC := mt7620a
   DEVICE_VENDOR := Phicomm
-  DEVICE_MODEL := PSG1218
+  DEVICE_MODEL := PSG1218 (K2)
   DEVICE_VARIANT:= Ax
   DEVICE_PACKAGES := kmod-mt76x2
   SUPPORTED_DEVICES += psg1218 psg1218a
@@ -675,7 +675,7 @@ TARGET_DEVICES += phicomm_psg1218a
 define Device/phicomm_psg1218b
   MTK_SOC := mt7620a
   DEVICE_VENDOR := Phicomm
-  DEVICE_MODEL := PSG1218
+  DEVICE_MODEL := PSG1218 (K2C)
   DEVICE_VARIANT := Bx
   DEVICE_PACKAGES := kmod-mt76x2
   SUPPORTED_DEVICES += psg1218 psg1218b
