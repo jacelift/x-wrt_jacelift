@@ -382,6 +382,12 @@ ramips_board_detect() {
 	*"Onion Omega2+")
 		name="omega2p"
 		;;
+	*"Openwrt Nxc200p")
+		name="nxc200p"
+		;;
+	*"Openwrt Puppies")
+		name="puppies"
+		;;
 	*"OY-0001")
 		name="oy-0001"
 		;;
