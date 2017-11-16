@@ -110,10 +110,12 @@ ramips_setup_interfaces()
 	mzk-w300nh2|\
 	nixcore-x1-8M|\
 	nixcore-x1-16M|\
+	nxc200p|\
 	oy-0001|\
 	pbr-m1|\
 	psg1208|\
 	psg1218a|\
+	puppies|\
 	r6220|\
 	netgear,r6350|\
 	rt-n12p|\
