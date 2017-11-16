@@ -137,6 +137,8 @@ ramips_setup_interfaces()
 	mqmaker,witi-256m|\
 	mqmaker,witi-512m|\
 	wndr3700v5|\
+	xwrt,nxc200p|\
+	xwrt,puppies|\
 	youku-yk1|\
 	youku,yk-l2|\
 	zbt-ape522ii|\
