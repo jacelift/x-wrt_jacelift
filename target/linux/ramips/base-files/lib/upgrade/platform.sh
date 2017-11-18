@@ -45,6 +45,7 @@ platform_do_upgrade() {
 	ubnt-erx|\
 	ubnt-erx-sfp|\
 	xiaomi,mir3g|\
+	xiaomi,miwifi-r3|\
 	xiaomi,mir3p)
 		nand_do_upgrade "$ARGV"
 		;;
