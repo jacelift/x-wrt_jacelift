@@ -42,7 +42,8 @@ platform_do_upgrade() {
 	ubnt-erx|\
 	ubnt-erx-sfp|\
 	xiaomi,mir3g|\
-	xiaomi,mir3p)
+	xiaomi,mir3p|\
+	xiaomi,miwifi-r3)
 		nand_do_upgrade "$ARGV"
 		;;
 	tplink,c50-v4)
