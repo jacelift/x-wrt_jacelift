@@ -44,7 +44,8 @@ platform_do_upgrade() {
 	netgear,r6220c|\
 	netgear,r6350|\
 	ubnt-erx|\
-	ubnt-erx-sfp)
+	ubnt-erx-sfp|\
+	xiaomi,miwifi-r3)
 		nand_do_upgrade "$ARGV"
 		;;
 	tplink,c50-v4)
