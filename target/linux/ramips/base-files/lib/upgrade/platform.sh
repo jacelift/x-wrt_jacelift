@@ -308,8 +308,9 @@ platform_check_image() {
 	r6220a|\
 	r6220|\
 	ubnt-erx|\
-	ubnt-erx-sfp)
-		nand_do_platform_check "$board" "$1"
+	ubnt-erx-sfp|\
+	xiaomi,miwifi-r3)
+		nand_do_platform_check "${board//,/_}" "$1"
 		return $?;
 		;;
 	mikrotik,rbm11g|\
@@ -367,7 +368,8 @@ platform_do_upgrade() {
 	r6220a|\
 	r6220|\
 	ubnt-erx|\
-	ubnt-erx-sfp)
+	ubnt-erx-sfp|\
+	xiaomi,miwifi-r3)
 		nand_do_upgrade "$ARGV"
 		;;
 	*)
