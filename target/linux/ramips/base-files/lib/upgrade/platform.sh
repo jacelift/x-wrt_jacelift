@@ -42,7 +42,8 @@ platform_do_upgrade() {
 	ubiquiti,edgerouterx|\
 	ubiquiti,edgerouterx-sfp|\
 	xiaomi,mir3g|\
-	xiaomi,mir3p)
+	xiaomi,mir3p|\
+	xiaomi,miwifi-r3)
 		nand_do_upgrade "$ARGV"
 		;;
 	tplink,archer-c50-v4)
