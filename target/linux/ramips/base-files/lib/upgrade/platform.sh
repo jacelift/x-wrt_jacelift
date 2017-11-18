@@ -25,7 +25,8 @@ platform_do_upgrade() {
 	netgear,r6220|\
 	netgear,r6350|\
 	xiaomi,mir3g|\
-	xiaomi,mir3p)
+	xiaomi,mir3p|\
+	xiaomi,miwifi-r3)
 		nand_do_upgrade "$1"
 		;;
 	tplink,archer-c50-v4)
