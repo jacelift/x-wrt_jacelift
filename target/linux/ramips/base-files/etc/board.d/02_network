@@ -492,6 +492,10 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"4:lan:1" "2:lan:2" "0:wan" "6@eth0"
 		;;
+	xiaomi,miwifi-r3)
+		ucidef_add_switch "switch0" \
+			"1:lan" "4:lan" "0:wan" "6@eth0"
+		;;
 	zyxel,keenetic-omni-ii)
 		ucidef_add_switch "switch0" \
 			"0:wan" "1:lan" "2:lan" "3:lan" "4:lan" "6@eth0"
@@ -717,8 +721,10 @@ ramips_setup_macs()
 		label_mac=$lan_mac
 		wan_mac=$(macaddr_setbit_la "$lan_mac")
 		;;
-	xiaomi,miwifi-mini)
-		lan_mac=$(macaddr_setbit_la "$(cat /sys/class/net/eth0/address)")
+	xiaomi,miwifi-mini|\
+	xiaomi,miwifi-r3)
+		wan_mac=$(cat /sys/class/net/eth0/address)
+		lan_mac=$(macaddr_setbit_la "$wan_mac")
 		;;
 	zbtlink,zbt-we1326)
 		wan_mac=$(mtd_get_mac_binary factory 0xe006)
