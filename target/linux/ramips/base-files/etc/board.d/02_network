@@ -683,6 +683,7 @@ ramips_setup_macs()
 	xiaomi,mir3g|\
 	xiaomi,mir3p)
 		lan_mac=$(mtd_get_mac_binary Factory 0xe006)
+		wan_mac=$(macaddr_setbit_la "$lan_mac")
 		;;
 	zyxel,keenetic-start)
 		wan_mac=$(mtd_get_mac_binary factory 40)
