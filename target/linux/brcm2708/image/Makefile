@@ -81,7 +81,7 @@ define Device/rpi
   DEVICE_PACKAGES := \
 	brcmfmac-firmware-43430-sdio \
 	brcmfmac-firmware-43430-sdio-rpi-zero-w \
-	kmod-brcmfmac wpad-basic
+	kmod-brcmfmac
 endef
 ifeq ($(SUBTARGET),bcm2708)
   TARGET_DEVICES += rpi
@@ -101,7 +101,7 @@ define Device/rpi-2
 	brcmfmac-firmware-43430-sdio-rpi-3b \
 	brcmfmac-firmware-43455-sdio brcmfmac-firmware-43455-clm_blob \
 	brcmfmac-firmware-43455-sdio-rpi-3b-plus brcmfmac-firmware-43455-sdio-rpi-4b \
-	kmod-brcmfmac wpad-basic
+	kmod-brcmfmac
   IMAGE/sysupgrade.img.gz := boot-common | boot-2708 | boot-2711 | sdcard-img | gzip | append-metadata
   IMAGE/factory.img.gz := boot-common | boot-2708 | boot-2711 | sdcard-img | gzip
 endef
@@ -122,7 +122,7 @@ define Device/rpi-3
 	brcmfmac-firmware-43430-sdio-rpi-3b \
 	brcmfmac-firmware-43455-sdio brcmfmac-firmware-43455-clm_blob \
 	brcmfmac-firmware-43455-sdio-rpi-3b-plus \
-	kmod-brcmfmac wpad-basic
+	kmod-brcmfmac
 endef
 ifeq ($(SUBTARGET),bcm2710)
   TARGET_DEVICES += rpi-3
@@ -137,7 +137,7 @@ define Device/rpi-4
   DEVICE_PACKAGES := \
 	brcmfmac-firmware-43455-sdio brcmfmac-firmware-43455-clm_blob \
 	brcmfmac-firmware-43455-sdio-rpi-4b \
-	kmod-brcmfmac wpad-basic
+	kmod-brcmfmac
   IMAGE/sysupgrade.img.gz := boot-common | boot-2711 | sdcard-img | gzip | append-metadata
   IMAGE/factory.img.gz := boot-common | boot-2711 | sdcard-img | gzip
 endef
