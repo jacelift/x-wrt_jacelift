@@ -64,7 +64,7 @@ define Device/rpi
 	raspberrypi,model-b raspberrypi,model-b-plus raspberrypi,model-b-rev2 \
 	raspberrypi,compute-module raspberrypi,compute-module-1 \
 	raspberrypi,model-zero raspberrypi,model-zero-w
-  DEVICE_PACKAGES := brcmfmac-firmware-43430-sdio brcmfmac-board-rpi2 kmod-brcmfmac wpad-basic
+  DEVICE_PACKAGES := brcmfmac-firmware-43430-sdio brcmfmac-board-rpi2 kmod-brcmfmac
 endef
 ifeq ($(SUBTARGET),bcm2708)
   TARGET_DEVICES += rpi
@@ -78,7 +78,7 @@ define Device/rpi-2
 	raspberrypi,2-model-b \
 	raspberrypi,3-model-b raspberrypi,3-model-b-plus \
 	raspberrypi,3-compute-module raspberrypi,compute-module-3
-  DEVICE_PACKAGES := brcmfmac-firmware-43430-sdio brcmfmac-firmware-43455-sdio brcmfmac-board-rpi2 brcmfmac-board-rpi3 kmod-brcmfmac wpad-basic
+  DEVICE_PACKAGES := brcmfmac-firmware-43430-sdio brcmfmac-firmware-43455-sdio brcmfmac-board-rpi2 brcmfmac-board-rpi3 kmod-brcmfmac
 endef
 ifeq ($(SUBTARGET),bcm2709)
   TARGET_DEVICES += rpi-2
@@ -92,7 +92,7 @@ define Device/rpi-3
 	rpi-3-b rpi-3-b-plus \
 	raspberrypi,3-model-b raspberrypi,3-model-b-plus \
 	raspberrypi,3-compute-module raspberrypi,compute-module-3
-  DEVICE_PACKAGES := brcmfmac-firmware-43430-sdio brcmfmac-board-rpi2 brcmfmac-firmware-43455-sdio brcmfmac-board-rpi3 kmod-brcmfmac wpad-basic
+  DEVICE_PACKAGES := brcmfmac-firmware-43430-sdio brcmfmac-board-rpi2 brcmfmac-firmware-43455-sdio brcmfmac-board-rpi3 kmod-brcmfmac
 endef
 ifeq ($(SUBTARGET),bcm2710)
   TARGET_DEVICES += rpi-3
