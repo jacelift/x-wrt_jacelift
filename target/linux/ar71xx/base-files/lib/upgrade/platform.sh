@@ -463,6 +463,7 @@ platform_check_image() {
 	tl-wdr3500|\
 	tl-wdr4300|\
 	tl-wdr4900-v2|\
+	tl-wdx6501-v7|\
 	tl-wdr6500-v2|\
 	tl-wpa8630|\
 	tl-wr1041n-v2|\
@@ -500,6 +501,7 @@ platform_check_image() {
 		local magic_ver="0100"
 
 		case "$board" in
+		tl-wdx6501-v7|\
 		tl-wdr6500-v2)
 			magic_ver="0200"
 			;;
