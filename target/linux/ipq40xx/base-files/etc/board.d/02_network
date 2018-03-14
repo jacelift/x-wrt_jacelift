@@ -13,24 +13,24 @@ ipq40xx_setup_interfaces()
 
 	case "$board" in
 	8dev,jalapeno)
-		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"0t@eth0" "4:lan" "5:wan"
+		;;
+	zyxel,nbg6617)
+		ucidef_add_switch "switch0" \
+			"0t@eth0" "1:lan:4" "2:lan:3" "3:lan:2" "4:lan:1" "5:wan:5"
 		;;
 	asus,map-ac2200|\
 	openmesh,a42|\
 	openmesh,a62)
-		ucidef_set_interfaces_lan_wan "eth1" "eth0"
+		ucidef_add_switch "switch0" \
+			"0t@eth0" "5:lan" "4:wan"
 		;;
 	asus,rt-ac58u|\
-	zyxel,nbg6617)
-		ucidef_set_interfaces_lan_wan "eth0" "eth1"
-		ucidef_add_switch "switch0" \
-			"0u@eth0" "1:lan:4" "2:lan:3" "3:lan:2" "4:lan:1"
-		;;
 	avm,fritzbox-4040|\
 	linksys,ea6350v3)
-		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		ucidef_add_switch "switch0" \
-			"0u@eth0" "1:lan" "2:lan" "3:lan" "4:lan"
+			"0t@eth0" "1:lan" "2:lan" "3:lan" "4:lan" "5:wan"
 		;;
 	compex,wpj428)
 		ucidef_set_interface_lan "eth0 eth1"
@@ -43,9 +43,8 @@ ipq40xx_setup_interfaces()
 		ucidef_set_interface_lan "eth0"
 		;;
 	glinet,gl-b1300)
-		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		ucidef_add_switch "switch0" \
-			"0u@eth0" "3:lan" "4:lan"
+			"0t@eth0" "3:lan" "4:lan" "5:wan"
 		;;
 	*)
 		echo "Unsupported hardware. Network interfaces not initialized"
