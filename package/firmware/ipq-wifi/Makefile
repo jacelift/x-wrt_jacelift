@@ -32,7 +32,8 @@ ALLWIFIBOARDS:= \
 	engenius_ens620ext \
 	linksys_ea6350v3 \
 	linksys_ea8300 \
-	qxwlan_e2600ac
+	qxwlan_e2600ac \
+	rt-acrh17
 
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
@@ -104,5 +105,6 @@ $(eval $(call generate-ipq-wifi-package,engenius_ens620ext,EnGenius ENS620EXT))
 $(eval $(call generate-ipq-wifi-package,linksys_ea6350v3,Linksys EA6350v3))
 $(eval $(call generate-ipq-wifi-package,linksys_ea8300,Linksys EA8300))
 $(eval $(call generate-ipq-wifi-package,qxwlan_e2600ac,Qxwlan E2600AC))
+$(eval $(call generate-ipq-wifi-package,rt-acrh17,board-rt-acrh17.bin,ASUS RT-ACRH17/RT-AC82U/RT-AC42U))
 
 $(foreach PACKAGE,$(ALLWIFIPACKAGES),$(eval $(call BuildPackage,$(PACKAGE))))
