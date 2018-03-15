@@ -18,7 +18,7 @@ endef
 # Please send a mail with your device-specific board files upstream.
 # You can find instructions and examples on the linux-wireless wiki:
 # <https://wireless.wiki.kernel.org/en/users/drivers/ath10k/boardfiles>
-ALLWIFIBOARDS:=alfa-network_ap120c-ac asus_map-ac2200 avm_fritzbox-7530 avm_fritzrepeater-3000 engenius_eap1300 engenius_ens620ext linksys_ea6350v3 qxwlan_e2600ac
+ALLWIFIBOARDS:=alfa-network_ap120c-ac asus_map-ac2200 avm_fritzbox-7530 avm_fritzrepeater-3000 engenius_eap1300 engenius_ens620ext linksys_ea6350v3 qxwlan_e2600ac rt-acrh17
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
 define Package/ipq-wifi-default
@@ -52,6 +52,7 @@ Don't install it for any other device!
   PREV_BOARD+=ipq-wifi-$(1)
 endef
 
+$(eval $(call generate-ipq-wifi-package,rt-acrh17,board-rt-acrh17.bin,ASUS RT-ACRH17/RT-AC82U/RT-AC42U))
 #$(eval $(call generate-ipq-wifi-package,<devicename>,<filename>,<displayname>))
 $(eval $(call generate-ipq-wifi-package,alfa-network_ap120c-ac,board-alfa-network_ap120c-ac.bin,ALFA Network AP120C-AC))
 $(eval $(call generate-ipq-wifi-package,asus_map-ac2200,board-map-ac2200.bin,ASUS MAP-AC2200))
