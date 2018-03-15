@@ -26,6 +26,7 @@ endef
 
 ALLWIFIBOARDS:= \
 	aruba_ap-303 \
+	asus_rt-acrh17 \
 	avm_fritzrepeater-1200 \
 	dlink_dap2610 \
 	engenius_eap2200 \
@@ -94,6 +95,7 @@ endef
 # Add $(eval $(call generate-ipq-wifi-package,<devicename>,<display name>))
 
 $(eval $(call generate-ipq-wifi-package,aruba_ap-303,Aruba AP-303))
+$(eval $(call generate-ipq-wifi-package,asus_rt-acrh17,ASUS RT-ACRH17/RT-AC82U/RT-AC42U))
 $(eval $(call generate-ipq-wifi-package,avm_fritzrepeater-1200,AVM FRITZRepeater 1200))
 $(eval $(call generate-ipq-wifi-package,dlink_dap2610,D-Link DAP-2610))
 $(eval $(call generate-ipq-wifi-package,engenius_eap2200,EnGenius EAP2200))
