@@ -220,10 +220,13 @@ define Device/mir3g
   KERNEL := $(KERNEL_DTB) | uImage lzma
   IMAGE_SIZE := 32768k
   UBINIZE_OPTS := -E 5
-  IMAGES := sysupgrade.tar kernel1.bin rootfs0.bin
+  IMAGES := sysupgrade.tar kernel1.bin rootfs0.bin breed-factory.bin
   IMAGE/kernel1.bin := append-kernel
   IMAGE/rootfs0.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
   IMAGE/sysupgrade.tar := sysupgrade-tar | append-metadata
+  IMAGE/breed-factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | \
+							 append-kernel | pad-to $$(KERNEL_SIZE) | \
+							 append-ubi | check-size $$$$(IMAGE_SIZE)
   DEVICE_TITLE := Xiaomi Mi Router 3G
   SUPPORTED_DEVICES += R3G
   DEVICE_PACKAGES := \
