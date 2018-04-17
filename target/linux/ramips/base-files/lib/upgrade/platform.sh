@@ -363,13 +363,21 @@ platform_do_upgrade() {
 
 	case "$board" in
 	hc5962|\
-	mir3g|\
 	r6220b|\
 	r6220a|\
 	r6220|\
 	ubnt-erx|\
-	ubnt-erx-sfp|\
+	ubnt-erx-sfp)
+		nand_do_upgrade "$ARGV"
+		;;
+	mir3g)
+		# this make it compatible with breed
+		dd if=/dev/mtd0 bs=1 count=64 2>/dev/null | grep -qi breed && CI_KERNPART_EXT="kernel_stock"
+		nand_do_upgrade "$ARGV"
+		;;
 	xiaomi,miwifi-r3)
+		# this make it compatible with breed
+		dd if=/dev/mtd0 bs=1 count=64 2>/dev/null | grep -qi breed && CI_KERNPART_EXT="kernel0_rsvd"
 		nand_do_upgrade "$ARGV"
 		;;
 	*)
