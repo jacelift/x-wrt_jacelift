@@ -1,0 +1,124 @@
+#!/bin/sh
+# Copyright (C) 2018 Chen Minqiang <ptpt52@gmail.com>
+
+. /usr/share/libubox/jshn.sh
+
+json_select_array() {
+	local _json_no_warning=1
+
+	json_select "$1"
+	[ $? = 0 ] && return
+
+	json_add_array "$1"
+	json_close_array
+
+	json_select "$1"
+}
+
+json_select_object() {
+	local _json_no_warning=1
+
+	json_select "$1"
+	[ $? = 0 ] && return
+
+	json_add_object "$1"
+	json_close_object
+
+	json_select "$1"
+}
+
+SW_CFG_DATA="$(test -f /etc/board.json && cat /etc/board.json)"
+
+get_switch_device()
+{
+	local sw=$1
+	local sw_idx=0
+	json_init
+	json_load "$SW_CFG_DATA"
+	json_select_object switch
+
+	if json_is_a $sw object && json_select_object $sw; then
+		json_get_keys ports ports
+		json_select_array ports
+		for i in $ports; do
+			json_select $i
+			json_get_var device device
+			test -n "$device" && echo $device
+			json_select ..
+		done
+		json_select ..
+		json_select ..
+	fi
+	json_select ..
+}
+
+is_ifname_static()
+{
+	local ix=0;
+	local ifname=$1
+	while uci get network.@interface[$ix] >/dev/null 2>&1; do
+		if [ "x`uci get network.@interface[$ix].ifname 2>/dev/null`" = "x$ifname" -a "x`uci get network.@interface[$ix].proto 2>/dev/null`" = "xstatic" ]; then
+			return 0
+		fi
+		ix=$((ix+1))
+	done
+	return 1
+}
+
+LKDIR=/tmp/switch_ports_status
+STATE=$LKDIR/state
+RUNNING=$LKDIR/lock_$$
+
+switch_ports_watch()
+{
+	echo >$STATE
+	while :; do
+		local idx=0
+		rm -f $STATE.new
+		while uci get network.@switch_vlan[$idx] >/dev/null 2>&1; do
+			sw=`uci get network.@switch_vlan[$idx].device`
+			vlan=`uci get network.@switch_vlan[$idx].vlan`
+			ports=`uci get network.@switch_vlan[$idx].ports | grep -o "[0-9]*"`
+			status=`(for p in $ports; do
+				swconfig dev $sw port $p show | grep -o "link:up"
+			done) | md5sum | head -c32`
+			ifi=`get_switch_device $sw`
+			ifi=`echo $ifi`
+			iface=$ifi.$vlan
+			status=[$iface]$status
+			echo $status >>$STATE.new
+			test -n "$DEBUG" && echo $status
+			oldstatus=`cat $STATE | grep "^\[$iface\]" 2>/dev/null`
+			if test -n "$oldstatus" && [ "x$status" != "x$oldstatus" ]; then
+				for iff in $ifi; do
+					if is_ifname_static $iff.$vlan; then
+						continue;
+					fi
+					ifconfig $iff.$vlan down 2>/dev/null && {
+						echo $iff.$vlan link status changed
+						ifconfig $iff.$vlan up
+					}
+				done
+			fi
+			idx=$((idx+1))
+		done
+		mv $STATE.new $STATE 2>/dev/null
+		test -f $RUNNING || break
+		sleep 2
+	done
+}
+
+mkdir -p $LKDIR
+[ x$1 = xstart ] && {
+	rm -f $LKDIR/lock_*
+	touch $RUNNING
+	switch_ports_watch
+	exit 0
+}
+
+[ x$1 = xstop ] && {
+	rm -rf $LKDIR
+	exit 0
+}
+
+DEBUG=1 switch_ports_watch
