@@ -464,13 +464,16 @@ TARGET_DEVICES += rp-n53
 
 define Device/rt-n12p
   DTS := RT-N12-PLUS
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
   DEVICE_TITLE := Asus RT-N11P/RT-N12+/RT-N12Eb1
 endef
 TARGET_DEVICES += rt-n12p
 
 define Device/rt-n14u
   DTS := RT-N14U
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
   DEVICE_TITLE := Asus RT-N14u
+  DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-ehci kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += rt-n14u
 
