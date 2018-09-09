@@ -514,6 +514,7 @@ TARGET_DEVICES += telco-electronics_x1
 
 define Device/thunder_timecloud
   MTK_SOC := mt7621
+  IMAGE_SIZE := 16064k
   DEVICE_VENDOR := Thunder
   DEVICE_MODEL := Timecloud
   DEVICE_PACKAGES := kmod-usb3
