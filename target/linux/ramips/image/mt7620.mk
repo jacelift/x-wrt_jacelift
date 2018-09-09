@@ -105,6 +105,7 @@ TARGET_DEVICES += asus_rt-ac51u
 
 define Device/asus_rt-n12p
   MTK_SOC := mt7620n
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
   DEVICE_VENDOR := Asus
   DEVICE_MODEL := RT-N11P/RT-N12+/RT-N12Eb1
   SUPPORTED_DEVICES += rt-n12p
@@ -113,6 +114,7 @@ TARGET_DEVICES += asus_rt-n12p
 
 define Device/asus_rt-n14u
   MTK_SOC := mt7620n
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
   DEVICE_VENDOR := Asus
   DEVICE_MODEL := RT-N14u
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
