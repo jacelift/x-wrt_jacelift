@@ -91,6 +91,7 @@ ifneq ($(CONFIG_GRUB_IMAGES),)
 		-d "$(KDIR)/root.grub/boot/grub" \
 		-r "hd0,msdos1" \
 		"$(BIN_DIR)/$(IMG_COMBINED)-$(1).img"
+	md5sum "$(BIN_DIR)/$(IMG_COMBINED)-$(1).img" | head -c32 >>"$(BIN_DIR)/$(IMG_COMBINED)-$(1).img"
   endef
 endif
 
