@@ -9,7 +9,7 @@ define Device/glinet_gl-ar300m-nand
   PAGESIZE := 2048
   VID_HDR_OFFSET := 512
   IMAGES += factory.ubi
-  IMAGE/sysupgrade.bin := sysupgrade-tar
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   IMAGE/factory.ubi := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
 endef
 TARGET_DEVICES += glinet_gl-ar300m-nand

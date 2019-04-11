@@ -8,7 +8,8 @@
 };
 
 &spi {
-	num-cs = <1>;
+	num-cs = <2>;
+	cs-gpios = <0>, <0>;
 
 	flash@1 {
 		compatible = "spinand,mt29f";
@@ -31,4 +32,9 @@
 			};
 		};
 	};
+};
+
+&firmware {
+	/delete-property/ compatible;
+	label = "reserved";
 };
