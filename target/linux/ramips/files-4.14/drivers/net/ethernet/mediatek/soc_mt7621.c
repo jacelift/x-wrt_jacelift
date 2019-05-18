@@ -159,6 +159,77 @@ static void mt7621_set_mac(struct fe_priv *priv, unsigned char *mac)
 	spin_unlock_irqrestore(&priv->page_lock, flags);
 }
 
+static void mt7621_auto_poll(struct mt7620_gsw *gsw)
+{
+	int phy;
+	int lsb = -1, msb = 0;
+
+	for_each_set_bit(phy, &gsw->autopoll, 32) {
+		if (lsb < 0)
+			lsb = phy;
+		msb = phy;
+	}
+
+	if (lsb == msb)
+		msb++;
+
+	mtk_switch_w32(gsw, PHY_AN_EN | PHY_PRE_EN | PMY_MDC_CONF(5) |
+		(msb << 8) | lsb, ESW_PHY_POLLING);
+}
+
+
+static void mt7621_port_init(struct fe_priv *priv, struct device_node *np)
+{
+	struct mt7620_gsw *gsw = (struct mt7620_gsw *)priv->soc->swpriv;
+	const __be32 *_reg = of_get_property(np, "reg", NULL);
+	int phy_mode, size, port_id, phy_addr = 0;
+	int shift = 12;
+	u32 val, mask = 0;
+
+	port_id = be32_to_cpu(*_reg);
+
+	phy_mode = of_get_phy_mode(np);
+	switch (phy_mode) {
+	case PHY_INTERFACE_MODE_RGMII:
+		mask = 0;
+		break;
+	case PHY_INTERFACE_MODE_MII:
+		mask = 1;
+		break;
+	case PHY_INTERFACE_MODE_RMII:
+		mask = 2;
+		break;
+	default:
+		dev_err(priv->dev, "port %d - invalid phy mode\n", port_id);
+		return;
+	}
+
+	priv->phy->phy_node[port_id] = of_parse_phandle(np, "phy-handle", 0);
+	if (!priv->phy->phy_node[port_id])
+		return;
+
+	val = rt_sysc_r32(SYSC_REG_CFG1);
+	val &= ~(3 << shift);
+	val |= mask << shift;
+	rt_sysc_w32(val, SYSC_REG_CFG1);
+
+	if (priv->phy->phy_node[port_id]) {
+		_reg = of_get_property(priv->phy->phy_node[port_id], "reg", NULL);
+		phy_addr = be32_to_cpu(*_reg);
+
+		if (mdiobus_get_phy(priv->mii_bus, phy_addr)) {
+			u32 val = PMCR_BACKPRES | PMCR_BACKOFF | PMCR_RX_EN |
+				PMCR_TX_EN |  PMCR_MAC_MODE | PMCR_IPG;
+
+			mtk_switch_w32(gsw, val, GSW_REG_PORT_PMCR(port_id));
+			fe_connect_port_phy_node(priv, port_id, priv->phy->phy_node[port_id]);
+			gsw->autopoll |= BIT(phy_addr);
+			mt7621_auto_poll(gsw);
+			return;
+		}
+	}
+}
+
 static struct fe_soc_data mt7621_data = {
 	.init_data = mt7621_init_data,
 	.reset_fe = mt7621_fe_reset,
@@ -167,6 +238,7 @@ static struct fe_soc_data mt7621_data = {
 	.tx_dma = mt7621_tx_dma,
 	.switch_init = mtk_gsw_init,
 	.switch_config = mt7621_gsw_config,
+	.port_init = mt7621_port_init,
 	.reg_table = mt7621_reg_table,
 	.pdma_glo_cfg = FE_PDMA_SIZE_16DWORDS,
 	.rx_int = RT5350_RX_DONE_INT,

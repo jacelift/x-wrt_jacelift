@@ -103,6 +103,45 @@ int fe_connect_phy_node(struct fe_priv *priv, struct device_node *phy_node)
 	return 0;
 }
 
+int fe_connect_port_phy_node(struct fe_priv *priv, int port, struct device_node *phy_node)
+{
+	struct phy_device *phydev;
+	int phy_mode;
+
+	phy_mode = of_get_phy_mode(phy_node);
+	if (phy_mode < 0) {
+		dev_err(priv->dev, "incorrect phy-mode %d\n", phy_mode);
+		priv->phy->phy_node[port] = NULL;
+		return -EINVAL;
+	}
+
+	phydev = of_phy_connect(priv->netdev, phy_node, fe_phy_link_adjust,
+				0, phy_mode);
+	if (!phydev) {
+		dev_err(priv->dev, "could not connect to PHY\n");
+		priv->phy->phy_node[port] = NULL;
+		return -ENODEV;
+	}
+
+	phydev->autoneg = AUTONEG_ENABLE;
+	phydev->speed = 0;
+	phydev->duplex = 0;
+	phydev->supported &= PHY_GBIT_FEATURES | SUPPORTED_Pause | SUPPORTED_Asym_Pause | SUPPORTED_FIBRE;
+	phydev->advertising = phydev->supported | ADVERTISED_Autoneg;
+	phydev->no_auto_carrier_off = 1;
+
+	dev_info(priv->dev,
+		 "connected port %d to PHY at %s [uid=%08x, driver=%s]\n",
+		 port, dev_name(&phydev->mdio.dev), phydev->phy_id,
+		 phydev->drv->name);
+
+	priv->phy->phy[port] = phydev;
+	priv->link[port] = 0;
+
+	phy_start_aneg(phydev);
+	return 0;
+}
+
 static void phy_init(struct fe_priv *priv, struct phy_device *phy)
 {
 	phy_attach(priv->netdev, dev_name(&phy->mdio.dev), PHY_INTERFACE_MODE_MII);
@@ -127,7 +166,7 @@ static int fe_phy_connect(struct fe_priv *priv)
 				priv->phy_dev = priv->phy->phy[i];
 				priv->phy_flags = FE_PHY_FLAG_PORT;
 			}
-		} else if (priv->mii_bus && mdiobus_get_phy(priv->mii_bus, i)) {
+		} else if (i != 7 && priv->mii_bus && mdiobus_get_phy(priv->mii_bus, i)) {
 			phy_init(priv, mdiobus_get_phy(priv->mii_bus, i));
 			if (!priv->phy_dev) {
 				priv->phy_dev = mdiobus_get_phy(priv->mii_bus, i);
@@ -153,7 +192,7 @@ static void fe_phy_disconnect(struct fe_priv *priv)
 			spin_unlock_irqrestore(&priv->phy->lock, flags);
 		} else if (priv->phy->phy[i]) {
 			phy_disconnect(priv->phy->phy[i]);
-		} else if (priv->mii_bus && mdiobus_get_phy(priv->mii_bus, i)) {
+		} else if (i != 7 && priv->mii_bus && mdiobus_get_phy(priv->mii_bus, i)) {
 			phy_detach(mdiobus_get_phy(priv->mii_bus, i));
 		}
 }

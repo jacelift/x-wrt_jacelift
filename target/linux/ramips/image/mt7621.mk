@@ -235,6 +235,13 @@ define Device/k2p
 endef
 TARGET_DEVICES += k2p
 
+define Device/tenbay_mac500f
+  DTS := TENBAY-MAC500F
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_TITLE := Tenbay MAC500F
+endef
+TARGET_DEVICES += tenbay_mac500f
+
 define Device/xiaomi_mir3p
   DTS := MIR3P
   BLOCKSIZE := 128k
