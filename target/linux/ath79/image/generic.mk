@@ -711,6 +711,14 @@ define Device/xwrt_mk-v0201
 endef
 TARGET_DEVICES += xwrt_mk-v0201
 
+define Device/xwrt_m-ap300g
+  ATH_SOC := ar9344
+  DEVICE_TITLE := XWRT M-AP300G
+  DEVICE_PACKAGES := kmod-leds-gpio kmod-usb-serial-pl2303 kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport
+  IMAGE_SIZE := 16000k
+endef
+TARGET_DEVICES += xwrt_m-ap300g
+
 define Device/yuncore_a770
   ATH_SOC := qca9531
   DEVICE_TITLE := YunCore A770
