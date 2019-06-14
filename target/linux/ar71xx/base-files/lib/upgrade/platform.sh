@@ -327,6 +327,7 @@ platform_check_image() {
 	wzr-hp-g300nh|\
 	wzr-hp-g300nh2|\
 	wzr-hp-g450h|\
+	xwrt-m-ap300g|\
 	xd3200)
 		[ "$magic" != "2705" ] && {
 			echo "Invalid image type."

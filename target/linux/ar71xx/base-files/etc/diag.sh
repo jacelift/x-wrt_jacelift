@@ -560,6 +560,9 @@ get_status_led() {
 	wrt400n)
 		status_led="$board:blue:wps"
 		;;
+	xwrt-m-ap300g)
+		status_led="xwrt:green:system"
+		;;
 	zcn-1523h-2|\
 	zcn-1523h-5)
 		status_led="zcn-1523h:amber:init"

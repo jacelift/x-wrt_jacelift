@@ -1564,6 +1564,9 @@ ar71xx_board_detect() {
 	*"X AP1200 board")
 		name="x-ap1200"
 		;;
+	*"XWRT M-AP300G")
+		name="xwrt-m-ap300g"
+		;;
 	*"Z1")
 		name="z1"
 		;;

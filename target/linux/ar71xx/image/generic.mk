@@ -1374,3 +1374,12 @@ define Device/x-ap1200
   IMAGE/sysupgrade.bin := append-rootfs | pad-rootfs | pad-to $$$$(ROOTFS_SIZE) | append-kernel | check-size $$$$(IMAGE_SIZE)
 endef
 TARGET_DEVICES += x-ap1200
+
+define Device/xwrt-m-ap300g
+  DEVICE_TITLE := XWRT M-AP300G support
+  BOARDNAME := XWRT-M-AP300G
+  DEVICE_PACKAGES += kmod-leds-gpio kmod-usb-serial-pl2303 kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport
+  IMAGE_SIZE := 16000k
+  MTDPARTS := spi0.0:256k(u-boot),64k(u-boot-env),16000k(firmware),64k(art)
+endef
+TARGET_DEVICES += xwrt-m-ap300g
