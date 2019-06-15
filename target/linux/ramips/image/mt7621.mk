@@ -468,6 +468,7 @@ define Device/phicomm_k2p
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
   DEVICE_VENDOR := Phicomm
   DEVICE_MODEL := K2P
+  DEVICE_PACKAGES := kmod-mt7615e
   SUPPORTED_DEVICES += k2p
 endef
 TARGET_DEVICES += phicomm_k2p
