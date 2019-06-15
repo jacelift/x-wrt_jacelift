@@ -279,7 +279,7 @@ define Device/xiaomi_mir3p
 							 append-kernel | pad-to $$(KERNEL_SIZE) | \
 							 append-ubi | check-size $$$$(IMAGE_SIZE)
   DEVICE_PACKAGES := \
-	kmod-usb3 kmod-usb-ledtrig-usbport uboot-envtools
+	kmod-usb3 kmod-usb-ledtrig-usbport uboot-envtools kmod-mt7615e
 endef
 TARGET_DEVICES += xiaomi_mir3p
 
