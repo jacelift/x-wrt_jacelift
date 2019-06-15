@@ -242,7 +242,7 @@ define Device/xiaomi_mir3p
   KERNEL_SIZE:= 4096k
   UBINIZE_OPTS := -E 5
   IMAGE_SIZE := $(ralink_default_fw_size_32M)
-  DEVICE_TITLE := Xiaomi Mi Router 3 Pro (no wifi)
+  DEVICE_TITLE := Xiaomi Mi Router 3 Pro
   IMAGES += kernel1.bin rootfs0.bin breed-factory.bin
   IMAGE/kernel1.bin := append-kernel
   IMAGE/rootfs0.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
@@ -251,7 +251,7 @@ define Device/xiaomi_mir3p
 							 append-kernel | pad-to $$(KERNEL_SIZE) | \
 							 append-ubi | check-size $$$$(IMAGE_SIZE)
   DEVICE_PACKAGES := \
-	kmod-usb3 kmod-usb-ledtrig-usbport uboot-envtools
+	kmod-usb3 kmod-usb-ledtrig-usbport uboot-envtools kmod-mt7615
 endef
 TARGET_DEVICES += xiaomi_mir3p
 
