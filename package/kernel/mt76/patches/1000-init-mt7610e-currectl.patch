@@ -1,0 +1,62 @@
+From 625619849a2b994235f345787420c3ed8a03f646 Mon Sep 17 00:00:00 2001
+From: Sue Suchan <abnoeh@mail.com>
+Date: Fri, 21 Jun 2019 23:47:05 +0900
+Subject: [PATCH] mt76x0 Apply @apr456 's patch to init mt7610e currectly
+
+---
+ mt76x0/phy.c     | 12 +++++++++++-
+ mt76x02_eeprom.h |  1 +
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/mt76x0/phy.c b/mt76x0/phy.c
+index 1fd22eb..6462eaa 100644
+--- a/mt76x0/phy.c
++++ b/mt76x0/phy.c
+@@ -430,14 +430,22 @@ mt76x0_phy_set_chan_bbp_params(struct mt76x02_dev *dev, u16 rf_bw_band)
+ static void mt76x0_phy_ant_select(struct mt76x02_dev *dev)
+ {
+ 	u16 ee_ant = mt76x02_eeprom_get(dev, MT_EE_ANTENNA);
++	u16 ee_cmb = mt76x02_eeprom_get(dev, MT_EE_CMB_CONF);
+ 	u16 nic_conf2 = mt76x02_eeprom_get(dev, MT_EE_NIC_CONF_2);
+-	u32 wlan, coex3, cmb;
++	u32 wlan, coex3, cmb, xo1;
+ 	bool ant_div;
+ 
+ 	wlan = mt76_rr(dev, MT_WLAN_FUN_CTRL);
+ 	cmb = mt76_rr(dev, MT_CMB_CTRL);
+ 	coex3 = mt76_rr(dev, MT_COEXCFG3);
+ 
++	xo1 = mt76_rr(dev, MT_XO_CTRL1);
++	xo1 &= 0xffff0000;
++	xo1 |= (u32)ee_cmb;
++
++	cmb &= 0xffff0000;
++	cmb |= (u32)ee_ant;
++
+ 	cmb   &= ~(BIT(14) | BIT(12));
+ 	wlan  &= ~(BIT(6) | BIT(5));
+ 	coex3 &= ~GENMASK(5, 2);
+@@ -470,6 +478,8 @@ static void mt76x0_phy_ant_select(struct mt76x02_dev *dev)
+ 	mt76_wr(dev, MT_CMB_CTRL, cmb);
+ 	mt76_clear(dev, MT_COEXCFG0, BIT(2));
+ 	mt76_wr(dev, MT_COEXCFG3, coex3);
++
++	mt76_wr(dev, MT_XO_CTRL1, xo1);
+ }
+ 
+ static void
+diff --git a/mt76x02_eeprom.h b/mt76x02_eeprom.h
+index e3442bc..e292d3b 100644
+--- a/mt76x02_eeprom.h
++++ b/mt76x02_eeprom.h
+@@ -26,6 +26,7 @@ enum mt76x02_eeprom_field {
+ 	MT_EE_MAC_ADDR =			0x004,
+ 	MT_EE_PCI_ID =				0x00A,
+ 	MT_EE_ANTENNA =				0x022,
++	MT_EE_CMB_CONF =			0x024,
+ 	MT_EE_NIC_CONF_0 =			0x034,
+ 	MT_EE_NIC_CONF_1 =			0x036,
+ 	MT_EE_COUNTRY_REGION_5GHZ =		0x038,
+-- 
+2.17.1
+
