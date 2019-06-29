@@ -496,6 +496,10 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "4:lan" "0:wan" "6@eth0"
 		;;
+	xwrt,g4303k-v1)
+		ucidef_add_switch "switch0" \
+			"1:lan" "2:lan" "3:lan" "4:wan" "6@eth0"
+		;;
 	zyxel,keenetic-omni-ii)
 		ucidef_add_switch "switch0" \
 			"0:wan" "1:lan" "2:lan" "3:lan" "4:lan" "6@eth0"
