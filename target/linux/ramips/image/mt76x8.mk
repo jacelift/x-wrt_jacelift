@@ -541,6 +541,17 @@ define Device/xiaomi_miwifi-nano
 endef
 TARGET_DEVICES += xiaomi_miwifi-nano
 
+define Device/xwrt_g4303k-v1
+  MTK_SOC := mt7628an
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_VENDOR := XWRT
+  DEVICE_MODEL := G4303K
+  DEVICE_VARIANT := v1
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-usb-ledtrig-usbport
+  SUPPORTED_DEVICES += g4303k-v1
+endef
+TARGET_DEVICES += xwrt_g4303k-v1
+
 define Device/zbtlink_zbt-we1226
   MTK_SOC := mt7628an
   IMAGE_SIZE := $(ralink_default_fw_size_8M)
