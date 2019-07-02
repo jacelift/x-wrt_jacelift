@@ -1,0 +1,18 @@
+#!/bin/sh /etc/rc.common
+# (C) 2012 Daniel Golle, Allnet GmbH <dgolle@allnet.de>
+
+START=96
+STOP=89
+
+LEDCTRL_BIN=/sbin/led-ctrl
+
+start() {
+	$LEDCTRL_BIN test && {
+		$LEDCTRL_BIN start
+	}
+}
+
+stop() {
+	service_stop $LEDCTRL_BIN
+	$LEDCTRL_BIN stop
+}
