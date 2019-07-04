@@ -646,6 +646,17 @@ define Device/wndr3700v5
 endef
 TARGET_DEVICES += wndr3700v5
 
+define Device/xwrt_t-cpe1200k-v01
+  DTS := T-CPE1200KV01
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_VENDOR := XWRT
+  DEVICE_MODEL := T-CPE1200K
+  DEVICE_VARIANT := v01
+  DEVICE_PACKAGES := \
+	kmod-mt7603 kmod-mt76x2 kmod-usb3 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += xwrt_t-cpe1200k-v01
+
 define Device/youhua_wr1200js
   DTS := WR1200JS
   IMAGE_SIZE := 16064k
