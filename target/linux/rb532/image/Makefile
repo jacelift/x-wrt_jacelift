@@ -36,6 +36,7 @@ define Build/lzma-loader-elf
 endef
 
 define Device/nand
+  DEVICE_TITLE := RB532
   CMDLINE := ubi.mtd=1 ubi.block=0,rootfs root=/dev/ubiblock0_1
   BOARD_NAME := rb532
   SUPPORTED_DEVICES := rb532
