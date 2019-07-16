@@ -89,6 +89,7 @@ ramips_setup_interfaces()
 	xiaomi,miwifi-mini|\
 	xiaomi,miwifi-nano|\
 	xiaoyu,xy-c5|\
+	xwrt,mac500f|\
 	xwrt,nxc200p|\
 	xwrt,puppies|\
 	xzwifi,creativebox-v1|\
