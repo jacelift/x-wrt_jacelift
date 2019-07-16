@@ -92,6 +92,7 @@ ramips_setup_interfaces()
 	wavlink,wl-wn575a3|\
 	xiaomi,miwifi-mini|\
 	xiaomi,miwifi-nano|\
+	xwrt,mac500f|\
 	xwrt,nxc200p|\
 	xwrt,puppies|\
 	xzwifi,creativebox-v1|\
