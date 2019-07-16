@@ -677,6 +677,15 @@ define Device/xiaomi_mir3p
 endef
 TARGET_DEVICES += xiaomi_mir3p
 
+define Device/xwrt_mac500f
+  MTK_SOC := mt7621
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_VENDOR := XWRT
+  DEVICE_MODEL := MAC500F
+  DEVICE_PACKAGES := uboot-envtools kmod-usb3 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += xwrt_mac500f
+
 define Device/xwrt_nxc200p
   MTK_SOC := mt7621
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
