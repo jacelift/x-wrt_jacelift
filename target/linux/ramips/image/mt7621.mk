@@ -688,6 +688,16 @@ define Device/xiaomi_mir3p
 endef
 TARGET_DEVICES += xiaomi_mir3p
 
+define Device/xiaomi_mir3p-nor
+  MTK_SOC := mt7621
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_VENDOR := Xiaomi
+  DEVICE_MODEL := Mi Router 3 Pro NOR (16M)
+  DEVICE_PACKAGES := \
+	kmod-mt7615e kmod-usb3 kmod-usb-ledtrig-usbport uboot-envtools
+endef
+TARGET_DEVICES += xiaomi_mir3p-nor
+
 define Device/xwrt_mac500f
   MTK_SOC := mt7621
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
