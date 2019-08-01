@@ -744,6 +744,7 @@ ramips_setup_macs()
 		label_mac=$(cat /sys/class/ieee80211/phy0/macaddress)
 		;;
 	*)
+		lan_mac=$(cat /sys/class/net/eth0/address)
 		wan_mac=$(macaddr_add "$(cat /sys/class/net/eth0/address)" 1)
 		;;
 	esac
