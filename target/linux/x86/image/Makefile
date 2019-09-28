@@ -125,30 +125,42 @@ endef
 ifneq ($(CONFIG_VDI_IMAGES),)
   define Image/Build/vdi
 	rm $(BIN_DIR)/$(IMG_COMBINED)-$(1).vdi || true
+	$(CP) $(BIN_DIR)/$(IMG_COMBINED)-$(1).img $(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img
+	$(STAGING_DIR_HOST)/bin/qemu-img resize $(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img 8G
 	$(STAGING_DIR_HOST)/bin/qemu-img convert -f raw -O vdi \
-		$(BIN_DIR)/$(IMG_COMBINED)-$(1).img \
+		$(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img \
 		$(BIN_DIR)/$(IMG_COMBINED)-$(1).vdi
+	rm $(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img
   endef
 endif
 
 ifneq ($(CONFIG_VMDK_IMAGES),)
   define Image/Build/vmdk
 	rm $(BIN_DIR)/$(IMG_COMBINED)-$(1).vmdk || true
+	$(CP) $(BIN_DIR)/$(IMG_COMBINED)-$(1).img $(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img
+	$(STAGING_DIR_HOST)/bin/qemu-img resize $(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img 8G
 	$(STAGING_DIR_HOST)/bin/qemu-img convert -f raw -O vmdk \
-		$(BIN_DIR)/$(IMG_COMBINED)-$(1).img \
+		$(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img \
 		$(BIN_DIR)/$(IMG_COMBINED)-$(1).vmdk
 	#build the ESXI VMDK with 
 	rm $(BIN_DIR)/$(IMG_COMBINED)-$(1)-esxi.vmdk || true
 	rm $(BIN_DIR)/$(IMG_COMBINED)-$(1)-esxi-flat.vmdk || true
 	$(STAGING_DIR_HOST)/bin/qemu-img convert -f raw -O vmdk -o adapter_type=lsilogic,subformat=monolithicFlat \
-		$(BIN_DIR)/$(IMG_COMBINED)-$(1).img \
+		$(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img \
 		$(BIN_DIR)/$(IMG_COMBINED)-$(1)-esxi.vmdk
+	rm $(BIN_DIR)/$(IMG_COMBINED)-$(1)-8G.img
   endef
 endif
 
 define Image/Build/gzip
 	gzip -f9n $(BIN_DIR)/$(IMG_COMBINED)-$(1).img
 	gzip -f9n $(BIN_DIR)/$(IMG_ROOTFS)-$(1).img
+ifneq ($(CONFIG_VDI_IMAGES),)
+	gzip -f9n $(BIN_DIR)/$(IMG_COMBINED)-$(1).vdi
+endif
+ifneq ($(CONFIG_VMDK_IMAGES),)
+	gzip -f9n $(BIN_DIR)/$(IMG_COMBINED)-$(1).vmdk
+endif
 endef
 
 $(eval $(call Image/gzip-ext4-padded-squashfs))
