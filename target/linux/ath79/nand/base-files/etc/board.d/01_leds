@@ -12,6 +12,11 @@ glinet,gl-ar300m-nand|\
 glinet,gl-ar300m-nor)
 	ucidef_set_led_netdev "lan" "LAN" "gl-ar300m:green:lan" "eth0"
 	;;
+xwrt,gw521-nand|\
+xwrt,gw521-nor)
+	ucidef_set_led_switch "eth" "ETH" "xwrt:green:eth" "switch0" "0x6"
+	ucidef_set_led_wlan "wifi" "WIFI" "xwrt:green:wifi" "phy1tpt"
+	;;
 esac
 
 board_config_flush
