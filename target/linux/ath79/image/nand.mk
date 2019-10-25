@@ -13,6 +13,7 @@ define Device/glinet_gl-ar300m-nand
   $(Device/glinet_gl-ar300m-common-nand)
   DEVICE_VARIANT := NAND
   BLOCKSIZE := 128k
+  UBINIZE_OPTS := -E 5
   IMAGES += factory.img
   IMAGE/factory.img := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
   IMAGE/sysupgrade.bin := sysupgrade-tar alt-board=gl-ar300m alt-board=glinet_gl-ar300m-nor | append-metadata
