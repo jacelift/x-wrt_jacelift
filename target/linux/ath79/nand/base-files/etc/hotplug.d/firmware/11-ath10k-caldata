@@ -3,7 +3,6 @@
 [ -e /lib/firmware/$FIRMWARE ] && exit 0
 
 . /lib/functions/caldata.sh
-. /lib/functions/k2t.sh
 
 board=$(board_name)
 
