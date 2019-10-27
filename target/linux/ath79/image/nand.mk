@@ -109,6 +109,7 @@ TARGET_DEVICES += glinet_gl-ar750s-nor
 define Device/zyxel_nbg6716
   ATH_SOC := qca9558
   DEVICE_VENDOR := ZyXEL
+  DEVICE_VARIANT := NBG6716
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ledtrig-usbport kmod-ath10k-ct ath10k-firmware-qca988x-ct
   RAS_BOARD := NBG6716
   RAS_ROOTFS_SIZE := 29696k
