@@ -12,7 +12,7 @@ Index: linux-5.4.63/arch/arm/boot/dts/Makefile
 ===================================================================
 --- linux-5.4.63.orig/arch/arm/boot/dts/Makefile
 +++ linux-5.4.63/arch/arm/boot/dts/Makefile
-@@ -837,11 +837,54 @@ dtb-$(CONFIG_ARCH_QCOM) += \
+@@ -837,11 +837,56 @@ dtb-$(CONFIG_ARCH_QCOM) += \
  	qcom-apq8074-dragonboard.dtb \
  	qcom-apq8084-ifc6540.dtb \
  	qcom-apq8084-mtp.dtb \
@@ -49,6 +49,8 @@ Index: linux-5.4.63/arch/arm/boot/dts/Makefile
 +	qcom-ipq4019-fritzrepeater-1200.dtb \
 +	qcom-ipq4019-fritzrepeater-3000.dtb \
 +	qcom-ipq4019-map-ac2200.dtb \
++	qcom-ipq4019-r619ac.dtb \
++	qcom-ipq4019-r619ac-128m.dtb \
 +	qcom-ipq4019-e2600ac-c1.dtb \
 +	qcom-ipq4019-e2600ac-c2.dtb \
 +	qcom-ipq4019-habanero-dvk.dtb \
