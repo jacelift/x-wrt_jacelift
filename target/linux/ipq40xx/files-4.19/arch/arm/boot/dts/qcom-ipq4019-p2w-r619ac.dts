@@ -304,8 +304,10 @@
 
 &wifi0 {
 	status = "okay";
+	qcom,ath10k-calibration-variant = "R619AC";
 };
 
 &wifi1 {
 	status = "okay";
+	qcom,ath10k-calibration-variant = "R619AC";
 };
