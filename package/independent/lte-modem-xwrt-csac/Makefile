@@ -22,7 +22,7 @@ define Package/$(PKG_NAME)/Default
   SECTION:=Applications
   CATEGORY:=Independent
   TITLE:=lte-modem for xwrt_csac board
-  DEPENDS:=@(TARGET_ath79_generic_DEVICE_xwrt_csac||TARGET_DEVICE_ath79_generic_DEVICE_xwrt_csac)
+  DEPENDS:=@(TARGET_ath79_generic_DEVICE_xwrt_csac||TARGET_DEVICE_ath79_generic_DEVICE_xwrt_csac||TARGET_ath79_generic_DEVICE_xwrt_csac2||TARGET_DEVICE_ath79_generic_DEVICE_xwrt_csac2)
 endef
 
 define Package/$(PKG_NAME)
