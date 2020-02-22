@@ -543,7 +543,7 @@ define Device/p2w_r619ac
 	PAGESIZE := 2048
 	IMAGES += nand-factory.bin
 	IMAGE/nand-factory.bin := append-ubi | qsdk-ipq-factory-nand
-	DEVICE_PACKAGES := ipq-wifi-p2w_r619ac -kmod-ath10k-ct -ath10k-firmware-qca4019-ct kmod-ath10k ath10k-firmware-qca4019
+	DEVICE_PACKAGES := ipq-wifi-p2w_r619ac -kmod-ath10k-ct -ath10k-firmware-qca4019-ct kmod-ath10k ath10k-firmware-qca4019 lte-modem-p2w-r619ac
 endef
 TARGET_DEVICES += p2w_r619ac
 
@@ -557,7 +557,7 @@ define Device/p2w_r619ac-128m
 	DEVICE_DTS_CONFIG := config@10
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
-	DEVICE_PACKAGES := ipq-wifi-p2w_r619ac -kmod-ath10k-ct -ath10k-firmware-qca4019-ct kmod-ath10k ath10k-firmware-qca4019
+	DEVICE_PACKAGES := ipq-wifi-p2w_r619ac -kmod-ath10k-ct -ath10k-firmware-qca4019-ct kmod-ath10k ath10k-firmware-qca4019 lte-modem-p2w-r619ac
 endef
 TARGET_DEVICES += p2w_r619ac-128m
 
