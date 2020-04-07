@@ -57,6 +57,9 @@ endef
 define Build/combined
 	$(CP) $(KDIR)/$(KERNEL_NAME) $@.boot/boot/vmlinuz
 	-$(CP) $(STAGING_DIR_ROOT)/boot/. $@.boot/boot/
+	$(CP) $(STAGING_DIR_IMAGE)/grub2/boot.img $@.boot/boot/grub/
+	$(CP) $(STAGING_DIR_IMAGE)/grub2/$(if $(filter $(1),efi),gpt,$(GRUB2_VARIANT))-core.img \
+		$@.boot/boot/grub/core.img
 	$(if $(filter $(1),efi),
 		$(INSTALL_DIR) $@.boot/efi/boot
 		$(CP) $(STAGING_DIR_IMAGE)/grub2/boot$(if $(CONFIG_x86_64),x64,ia32).efi $@.boot/efi/boot/
