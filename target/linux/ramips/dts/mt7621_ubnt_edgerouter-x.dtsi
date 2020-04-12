@@ -5,7 +5,7 @@
 
 / {
 	aliases {
-		label-mac-device = &gmac0;
+		label-mac-device = &ethernet;
 	};
 
 	chosen {
@@ -23,46 +23,20 @@
 	};
 };
 
-&gmac0 {
+&ethernet {
+	compatible = "mediatek,ralink-mt7621-eth";
+	mediatek,switch = <&gsw>;
 	mtd-mac-address = <&factory 0x22>;
-	label = "dsa";
 };
 
 &switch0 {
-	ports {
-		port@0 {
-			status = "okay";
-			label = "eth0";
-		};
+	/* must delete compatible property */
+	/delete-property/ compatible;
+	phy-mode = "rgmii";
+};
 
-		port@1 {
-			status = "okay";
-			label = "eth1";
-			mtd-mac-address = <&factory 0x22>;
-			mtd-mac-address-increment = <1>;
-		};
-
-		port@2 {
-			status = "okay";
-			label = "eth2";
-			mtd-mac-address = <&factory 0x22>;
-			mtd-mac-address-increment = <2>;
-		};
-
-		port@3 {
-			status = "okay";
-			label = "eth3";
-			mtd-mac-address = <&factory 0x22>;
-			mtd-mac-address-increment = <3>;
-		};
-
-		port@4 {
-			status = "okay";
-			label = "eth4";
-			mtd-mac-address = <&factory 0x22>;
-			mtd-mac-address-increment = <4>;
-		};
-	};
+&gsw {
+	compatible = "mediatek,ralink-mt7621-gsw";
 };
 
 &nand {
