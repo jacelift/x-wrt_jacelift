@@ -1,0 +1,26 @@
+diff --git a/net/bridge/br_fdb.c b/net/bridge/br_fdb.c
+index b1d3248c0252..85df926d66ad 100644
+--- a/net/bridge/br_fdb.c
++++ b/net/bridge/br_fdb.c
+@@ -581,6 +581,8 @@ void br_fdb_update(struct net_bridge *br, struct net_bridge_port *source,
+ 
+ 			/* fastpath: update of existing entry */
+ 			if (unlikely(source != fdb->dst && !fdb->is_sticky)) {
++				/* Remove the entry in HW */
++				br_switchdev_fdb_notify(fdb, RTM_DELNEIGH);
+ 				fdb->dst = source;
+ 				fdb_modified = true;
+ 				/* Take over HW learned entry */
+diff --git a/net/dsa/slave.c b/net/dsa/slave.c
+index 23c2210fa7ec..a467ca8f999d 100644
+--- a/net/dsa/slave.c
++++ b/net/dsa/slave.c
+@@ -1591,8 +1591,6 @@ static void dsa_slave_switchdev_event_work(struct work_struct *work)
+ 
+ 	case SWITCHDEV_FDB_DEL_TO_DEVICE:
+ 		fdb_info = &switchdev_work->fdb_info;
+-		if (!fdb_info->added_by_user)
+-			break;
+ 
+ 		err = dsa_port_fdb_del(dp, fdb_info->addr, fdb_info->vid);
+ 		if (err) {
