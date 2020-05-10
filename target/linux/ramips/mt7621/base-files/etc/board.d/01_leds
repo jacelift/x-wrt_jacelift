@@ -78,7 +78,7 @@ xiaomi,mir3g)
 	ucidef_set_led_switch "lan2-amber" "LAN2 (amber)" "$boardname:amber:lan2" "switch0" "0x04" "0x08"
 	;;
 xiaomi,redmi-router-ac2100)
-	ucidef_set_led_netdev "wan" "wan" "rm2100:white:wan" "wan"
+	ucidef_set_led_switch "wan" "wan" "rm2100:white:wan" "switch0" "0x1"
 	;;
 xwrt,t-cpe1200k-v01)
 	ucidef_set_led_switch "led_eth"  "led_eth"  "xwrt:blue:eth"  "switch0" "0x1"
