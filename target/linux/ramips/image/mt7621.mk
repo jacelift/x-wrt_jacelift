@@ -875,7 +875,7 @@ define Device/tplink_re500-v1
   $(Device/tplink-safeloader)
   DEVICE_MODEL := RE500
   DEVICE_VARIANT := v1
-  DEVICE_PACKAGES := kmod-mt7615e
+  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware
   TPLINK_BOARD_ID := RE500-V1
   IMAGE_SIZE := 14208k
 endef
