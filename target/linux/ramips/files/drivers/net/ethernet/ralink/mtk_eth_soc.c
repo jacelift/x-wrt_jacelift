@@ -1501,12 +1501,20 @@ fe_flow_offload(enum flow_offload_type type, struct flow_offload *flow,
 		struct flow_offload_hw_path *src,
 		struct flow_offload_hw_path *dest)
 {
-	struct fe_priv *priv;
+	struct fe_priv *priv = NULL;
 
-	if (src->dev != dest->dev)
+	/* for now offload only do support natflow */
+	if (flow->flags != 0) {
 		return -EINVAL;
+	}
 
-	priv = netdev_priv(src->dev);
+	if (src->dev->netdev_ops->ndo_flow_offload == fe_flow_offload) {
+		priv = netdev_priv(src->dev);
+	} else if (dest->dev->netdev_ops->ndo_flow_offload == fe_flow_offload) {
+		priv = netdev_priv(dest->dev);
+	} else {
+		return -EINVAL;
+	}
 
 	return mtk_flow_offload(priv, type, flow, src, dest);
 }
