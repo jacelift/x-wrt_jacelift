@@ -65,7 +65,7 @@ mtk_foe_prepare_v4(struct mtk_foe_entry *entry,
 	entry->ipv4_hnapt.iblk2.fqos = 1;
 #endif
 #ifdef CONFIG_RALINK
-	entry->ipv4_hnapt.iblk2.dp = 1;
+	entry->ipv4_hnapt.iblk2.dp = (dest->dev->netdev_ops->ndo_flow_offload ? 1 : 0);
 	if ((dest->flags & FLOW_OFFLOAD_PATH_VLAN) && (dest->vlan_id > 1))
 		entry->ipv4_hnapt.iblk2.qid += 8;
 #else
@@ -157,12 +157,6 @@ int mtk_flow_offload(struct mtk_eth *eth,
 	if (otuple->l4proto != IPPROTO_TCP && otuple->l4proto != IPPROTO_UDP)
 		return -EINVAL;
 	
-	if (type == FLOW_OFFLOAD_DEL) {
-		flow = NULL;
-		synchronize_rcu();
-		return 0;
-	}
-
 	switch (otuple->l3proto) {
 	case AF_INET:
 		if (mtk_foe_prepare_v4(&orig, otuple, rtuple, src, dest) ||
@@ -180,6 +174,13 @@ int mtk_flow_offload(struct mtk_eth *eth,
 		return -EINVAL;
 	}
 
+	if (type == FLOW_OFFLOAD_DEL) {
+		flow = NULL;
+		rcu_assign_pointer(eth->foe_flow_table[ohash], flow);
+		rcu_assign_pointer(eth->foe_flow_table[rhash], flow);
+		return 0;
+	}
+
 	/* Two-way hash: when hash collision occurs, the hash value will be shifted to the next position. */
 	if (!mtk_check_entry_available(eth, ohash)){       
 		if (!mtk_check_entry_available(eth, ohash + 1))
@@ -190,6 +191,35 @@ int mtk_flow_offload(struct mtk_eth *eth,
 		if (!mtk_check_entry_available(eth, rhash + 1))
                         return -EINVAL;
                 rhash += 1;
+	}
+
+	if (ohash != ((flow->timeout >> 16) & 0xfff)) {
+		if (ohash % 2 == 0) {
+			if (!mtk_check_entry_available(eth, ohash + 1)) {
+				return -EINVAL;
+			} else {
+				ohash += 1;
+				if (ohash != ((flow->timeout >> 16) & 0xfff)) {
+					return -EINVAL;
+				}
+			}
+		} else {
+			return -EINVAL;
+		}
+	}
+	if (rhash != ((flow->timeout >> 0) & 0xfff)) {
+		if (rhash % 2 == 0) {
+			if (!mtk_check_entry_available(eth, rhash + 1)) {
+				return -EINVAL;
+			} else {
+				rhash += 1;
+				if (rhash != ((flow->timeout >> 0) & 0xfff)) {
+					return -EINVAL;
+				}
+			}
+		} else {
+			return -EINVAL;
+		}
 	}
 
 	mtk_foe_set_mac(&orig, dest->eth_src, dest->eth_dest);
@@ -496,10 +526,20 @@ static void mtk_offload_keepalive(struct fe_priv *eth, unsigned int hash)
 
 	rcu_read_lock();
 	flow = rcu_dereference(eth->foe_flow_table[hash]);
-	if (flow)
-		flow->timeout = jiffies + 30 * HZ;
+	if (flow) {
+		void (*func)(unsigned int);
+		func = (void *)flow->priv;
+		if (func) {
+			func(hash);
+		}
+	}
 	rcu_read_unlock();
 }
+
+/* natflow.h */
+#define HWNAT_QUEUE_MAPPING_MAGIC      0x9000
+#define HWNAT_QUEUE_MAPPING_MAGIC_MASK 0xf000
+#define HWNAT_QUEUE_MAPPING_HASH_MASK  0x0fff
 
 int mtk_offload_check_rx(struct fe_priv *eth, struct sk_buff *skb, u32 rxd4)
 {
@@ -514,6 +554,10 @@ int mtk_offload_check_rx(struct fe_priv *eth, struct sk_buff *skb, u32 rxd4)
 		return -1;
 	case MTK_CPU_REASON_PACKET_SAMPLING:
 		return -1;
+	case MTK_CPU_REASON_HIT_BIND_FORCE_CPU:
+		hash = FIELD_GET(MTK_RXD4_FOE_ENTRY, rxd4);
+		skb->queue_mapping = (HWNAT_QUEUE_MAPPING_MAGIC | hash);
+		skb->vlan_tci |= HWNAT_QUEUE_MAPPING_MAGIC;
 	default:
 		return 0;
 	}
