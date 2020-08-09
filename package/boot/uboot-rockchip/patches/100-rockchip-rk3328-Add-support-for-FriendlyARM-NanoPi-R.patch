@@ -18,7 +18,7 @@ Signed-off-by: David Bauer <mail@david-bauer.net>
 ---
  arch/arm/dts/Makefile                      |   1 +
  arch/arm/dts/rk3328-nanopi-r2s-u-boot.dtsi |  34 +++
- arch/arm/dts/rk3328-nanopi-r2s.dts         | 334 +++++++++++++++++++++
+ arch/arm/dts/rk3328-nanopi-r2s.dts         | 336 +++++++++++++++++++++
  board/rockchip/evb_rk3328/MAINTAINERS      |   7 +
  configs/nanopi-r2s-rk3328_defconfig        |  99 ++++++
  5 files changed, 475 insertions(+)
@@ -75,7 +75,7 @@ Signed-off-by: David Bauer <mail@david-bauer.net>
 +};
 --- /dev/null
 +++ b/arch/arm/dts/rk3328-nanopi-r2s.dts
-@@ -0,0 +1,334 @@
+@@ -0,0 +1,336 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2020 David Bauer <mail@david-bauer.net>
@@ -110,6 +110,7 @@ Signed-off-by: David Bauer <mail@david-bauer.net>
 +		regulator-name = "vcc_sd";
 +		regulator-min-microvolt = <3300000>;
 +		regulator-max-microvolt = <3300000>;
++		startup-delay-us = <100000>;
 +		vin-supply = <&vcc_io>;
 +	};
 +
@@ -127,6 +128,7 @@ Signed-off-by: David Bauer <mail@david-bauer.net>
 +		regulator-name = "vcc_sdio";
 +		regulator-settling-time-us = <5000>;
 +		regulator-type = "voltage";
++		startup-delay-us = <2000>;
 +		vin-supply = <&vcc_io>;
 +	};
 +
