@@ -343,7 +343,6 @@ endef
 TARGET_DEVICES += dlink_dir-882-a1
 
 define Device/d-team_newifi-d2
-  $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 32448k
   DEVICE_VENDOR := Newifi
@@ -484,7 +483,6 @@ endef
 TARGET_DEVICES += firefly_firewrt
 
 define Device/gehua_ghl-r-001
-  $(Device/dsa-migration)
   IMAGE_SIZE := 32448k
   DEVICE_VENDOR := GeHua
   DEVICE_MODEL := GHL-R-001
@@ -814,6 +812,8 @@ endef
 
 define Device/netgear_r6220
   $(Device/netgear_sercomm_nand)
+  DEVICE_COMPAT_VERSION := 1.0
+  DEVICE_COMPAT_MESSAGE := Config is compat with swconfig
   DEVICE_MODEL := R6220
   SERCOMM_HWNAME := R6220
   SERCOMM_HWID := AYA
@@ -921,6 +921,8 @@ define Device/netgear_wndr3700-v5
   $(Device/dsa-migration)
   $(Device/netgear_sercomm_nor)
   $(Device/uimage-lzma-loader)
+  DEVICE_COMPAT_VERSION := 1.0
+  DEVICE_COMPAT_MESSAGE := Config is compat with swconfig
   IMAGE_SIZE := 15232k
   DEVICE_MODEL := WNDR3700
   DEVICE_VARIANT := v5
@@ -1161,7 +1163,6 @@ endef
 TARGET_DEVICES += winstars_ws-wn583a6
 
 define Device/xiaomi-ac2100
-  $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
   BLOCKSIZE := 128k
   PAGESIZE := 2048
@@ -1188,7 +1189,6 @@ endef
 TARGET_DEVICES += xiaomi_mi-router-ac2100
 
 define Device/xiaomi_mir3g
-  $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
   BLOCKSIZE := 128k
   PAGESIZE := 2048
