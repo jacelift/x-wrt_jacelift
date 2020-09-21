@@ -1,0 +1,114 @@
+/dts-v1/;
+
+#include "mt7621.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "xwrt,tcb1800k-ax-nor", "mediatek,mt7621-soc";
+	model = "TCB1800K-AX-NOR";
+
+	aliases {
+		label-mac-device = &ethernet;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200";
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+};
+
+&sdhci {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <25000000>;
+		broken-flash-reset;
+		m25p,fast-read;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "Bootloader";
+				reg = <0x0 0x40000>;
+			};
+
+			partition@30000 {
+				label = "Config";
+				reg = <0x40000 0x10000>;
+			};
+
+			factory: partition@40000 {
+				label = "factory";
+				reg = <0x50000 0x40000>;
+			};
+
+			partition@90000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				reg = <0x90000 0xf70000>;
+			};
+		};
+	};
+};
+
+&pcie {
+	status = "okay";
+};
+
+&pcie0 {
+	wifi@0,0 {
+		compatible = "mediatek,mt76";
+		reg = <0x0000 0 0 0 0>;
+		mediatek,mtd-eeprom = <&factory 0x0000>;
+		mtd-mac-address = <&factory 0x4>;
+	};
+};
+
+&ethernet {
+	compatible = "mediatek,ralink-mt7621-eth";
+	mediatek,switch = <&gsw>;
+	mtd-mac-address = <&factory 0x28>;
+};
+
+&gmac0 {
+	phy-mode = "trgmii";
+};
+
+&switch0 {
+	/* must delete compatible property */
+	/delete-property/ compatible;
+	phy-mode = "trgmii";
+};
+
+&gsw {
+	compatible = "mediatek,ralink-mt7621-gsw";
+};
+
+&pinctrl {
+	state_default: pinctrl0 {
+		gpio {
+			groups = "i2c", "uart2", "uart3";
+			function = "gpio";
+		};
+	};
+};
