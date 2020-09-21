@@ -1365,6 +1365,17 @@ define Device/xzwifi_creativebox-v1
 endef
 TARGET_DEVICES += xzwifi_creativebox-v1
 
+define Device/xwrt_tcb1800k-ax-nor
+  SOC := mt7621
+  IMAGE_SIZE := 15808k
+  DEVICE_VENDOR := XWRT
+  DEVICE_MODEL := TCB1800K-AX
+  DEVICE_VARIANT := NOR
+  DEVICE_PACKAGES := \
+	kmod-mt7915e kmod-mt7615-firmware kmod-usb3 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += xwrt_tcb1800k-ax-nor
+
 define Device/xwrt_t-cpe1200k-v01
   SOC := mt7621
   IMAGE_SIZE := 16000k
