@@ -973,7 +973,6 @@ endef
 TARGET_DEVICES += netis_wf2881
 
 define Device/phicomm_k2p
-  $(Device/dsa-migration)
   IMAGE_SIZE := 15744k
   DEVICE_VENDOR := Phicomm
   DEVICE_MODEL := K2P
