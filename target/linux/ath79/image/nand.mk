@@ -108,6 +108,22 @@ define Device/domywifi_dw33d
 endef
 TARGET_DEVICES += domywifi_dw33d
 
+define Device/domywifi_dw33d-nor
+  $(Device/loader-okli-uimage)
+  $(Device/domywifi_dw33d)
+  DEVICE_VARIANT := NOR
+  IMAGE_SIZE := 14464k
+  BLOCKSIZE := 64k
+  LOADER_FLASH_OFFS := 0x60000
+  KERNEL := kernel-bin | append-dtb | lzma | uImage lzma -M 0x4f4b4c49
+  IMAGES := sysupgrade.bin breed-factory.bin
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | \
+			  append-metadata | check-size
+  IMAGE/breed-factory.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | \
+			     prepad-okli-kernel $(1) | pad-to 14528k | append-okli-kernel $(1)
+endef
+TARGET_DEVICES += domywifi_dw33d-nor
+
 define Device/dongwon_dw02-412h
   SOC := qca9557
   DEVICE_VENDOR := Dongwon T&I
