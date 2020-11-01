@@ -1155,7 +1155,7 @@ Signed-off-by: Weijie Gao <weijie.gao@mediatek.com>
 +	uint32_t i, j;
 +	u8 *oobptr;
 +
-+	for (i = 0; i < mtd->writesize; i++)
++	if (buf) for (i = 0; i < mtd->writesize; i++)
 +		if (buf[i] != 0xff)
 +			return 0;
 +
