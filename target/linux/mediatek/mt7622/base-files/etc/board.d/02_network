@@ -10,7 +10,8 @@ mediatek_setup_interfaces()
 
 	case $board in
 	bananapi,bpi-r64-rootdisk|\
-	bananapi,bpi-r64)
+	bananapi,bpi-r64|\
+	xwrt,ax3600-v1)
 		ucidef_set_interfaces_lan_wan "lan0 lan1 lan2 lan3" wan
 		;;
 	mediatek,mt7622-rfb1)
