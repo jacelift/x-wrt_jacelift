@@ -188,6 +188,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&caldata 0x1000>;
+	mtd-mac-address = <&caldata 0x6>;
 	nvmem-cells = <&macaddr_caldata_6>;
 	nvmem-cell-names = "mac-address";
 };
@@ -204,6 +205,7 @@
 &eth0 {
 	status = "okay";
 
+	mtd-mac-address = <&caldata 0x0>;
 	nvmem-cells = <&macaddr_caldata_0>;
 	nvmem-cell-names = "mac-address";
 

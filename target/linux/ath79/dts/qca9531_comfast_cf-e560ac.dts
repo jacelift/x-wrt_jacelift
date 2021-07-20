@@ -150,12 +150,14 @@
 
 	phy-handle = <&swphy4>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <1>;
 };
 
 &eth1 {
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 };
@@ -164,6 +166,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <10>;

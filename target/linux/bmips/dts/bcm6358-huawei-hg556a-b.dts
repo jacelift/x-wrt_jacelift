@@ -125,6 +125,7 @@
 
 		pci-dev = <1>;
 
+		mtd-mac-address = <&cfe 0x6a0>;
 		nvmem-cells = <&macaddr_cfe_6a0>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <1>;

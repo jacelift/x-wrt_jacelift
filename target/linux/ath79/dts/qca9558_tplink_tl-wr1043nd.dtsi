@@ -145,6 +145,7 @@
 
 	pll-data = <0x56000000 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <1>;
@@ -156,6 +157,7 @@
 
 	pll-data = <0x03000101 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 
@@ -168,6 +170,7 @@
 &wmac {
 	status = "okay";
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 };

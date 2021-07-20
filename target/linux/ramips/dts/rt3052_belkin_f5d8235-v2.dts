@@ -115,6 +115,7 @@
 };
 
 &ethernet {
+	mtd-mac-address = <&uboot 0x40004>;
 	nvmem-cells = <&macaddr_uboot_40004>;
 	nvmem-cell-names = "mac-address";
 	pinctrl-names = "default";

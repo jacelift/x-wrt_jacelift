@@ -142,6 +142,7 @@
 &pcie0 {
 	wifi@0,0 {
 		reg = <0x0000 0 0 0 0>;
+		mtd-mac-address = <&config 0xe496>;
 		nvmem-cells = <&macaddr_config_e496>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <(2)>;

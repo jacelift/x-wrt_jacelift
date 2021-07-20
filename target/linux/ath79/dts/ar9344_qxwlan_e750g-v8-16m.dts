@@ -33,6 +33,7 @@
 
 	pll-data = <0x06000000 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&pridata 0x400>;
 	nvmem-cells = <&macaddr_pridata_400>;
 	nvmem-cell-names = "mac-address";
 

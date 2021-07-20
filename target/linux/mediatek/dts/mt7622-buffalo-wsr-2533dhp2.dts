@@ -218,6 +218,7 @@
 
 		phy-connection-type = "2500base-x";
 
+		mtd-mac-address = <&factory 0x4>;
 		nvmem-cells = <&macaddr_factory_4>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <(-1)>;

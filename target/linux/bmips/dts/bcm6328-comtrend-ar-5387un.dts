@@ -34,6 +34,7 @@
 		pci-bus = <1>;
 		pci-dev = <0>;
 
+		mtd-mac-address = <&cfe 0x6a0>;
 		nvmem-cells = <&macaddr_cfe_6a0>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <1>;
@@ -72,6 +73,7 @@
 &ethernet {
 	status = "okay";
 
+	mtd-mac-address = <&cfe 0x6a0>;
 	nvmem-cells = <&macaddr_cfe_6a0>;
 	nvmem-cell-names = "mac-address";
 };

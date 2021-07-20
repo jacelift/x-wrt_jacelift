@@ -141,6 +141,7 @@
 		compatible = "pci168c,0030";
 		reg = <0x0000 0 0 0 0>;
 		qca,no-eeprom;
+		mtd-mac-address = <&addr 0x0>;
 		nvmem-cells = <&macaddr_addr_0>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <0x10>;
@@ -180,6 +181,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&addr 0x0>;
 	nvmem-cells = <&macaddr_addr_0>;
 	nvmem-cell-names = "mac-address";
 };
@@ -199,6 +201,7 @@
 
 	pll-data = <0xe000000 0x04000101 0x04001313>;
 
+	mtd-mac-address = <&addr 0x0>;
 	nvmem-cells = <&macaddr_addr_0>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <0x21>;

@@ -403,11 +403,13 @@
 };
 
 &gmac0 {
+	mtd-mac-address = <&orgdata 0x20>;
 	nvmem-cells = <&macaddr_orgdata_20>;
 	nvmem-cell-names = "mac-address";
 };
 
 &gmac1 {
+	mtd-mac-address = <&orgdata 0x20>;
 	nvmem-cells = <&macaddr_orgdata_20>;
 	nvmem-cell-names = "mac-address";
 };

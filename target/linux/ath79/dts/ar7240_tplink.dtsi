@@ -104,6 +104,7 @@
 	ath9k: wifi@0,0 {
 		reg = <0x0000 0 0 0 0>;
 		qca,no-eeprom;
+		mtd-mac-address = <&uboot 0x1fc00>;
 		nvmem-cells = <&macaddr_uboot_1fc00>;
 		nvmem-cell-names = "mac-address";
 		#gpio-cells = <2>;

@@ -157,6 +157,7 @@
 		#gpio-cells = <2>;
 		gpio-controller;
 		qca,no-eeprom;
+		mtd-mac-address = <&uboot 0x1fc00>;
 		nvmem-cells = <&macaddr_uboot_1fc00>;
 		nvmem-cell-names = "mac-address";
 	};
@@ -166,6 +167,7 @@
 	status = "okay";
 
 	phy-mode = "rgmii";
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 

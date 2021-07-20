@@ -109,6 +109,7 @@
 };
 
 &gmac0 {
+	mtd-mac-address = <&factory 0x4>;
 	nvmem-cells = <&macaddr_factory_4>;
 	nvmem-cell-names = "mac-address";
 };
@@ -118,6 +119,7 @@
 		wan_port: port@0 {
 			status = "okay";
 			label = "wan";
+			mtd-mac-address = <&factory 0x28>;
 			nvmem-cells = <&macaddr_factory_28>;
 			nvmem-cell-names = "mac-address";
 		};

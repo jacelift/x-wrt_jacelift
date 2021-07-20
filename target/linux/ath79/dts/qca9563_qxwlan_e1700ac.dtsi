@@ -118,6 +118,7 @@
 	phy-mode = "sgmii";
 	phy-handle = <&phy0>;
 
+	mtd-mac-address = <&pridata 0x400>;
 	nvmem-cells = <&macaddr_pridata_400>;
 	nvmem-cell-names = "mac-address";
 };

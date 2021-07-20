@@ -127,6 +127,7 @@
 
 	phy-handle = <&phy0>;
 
+	mtd-mac-address = <&pridata 0x400>;
 	nvmem-cells = <&macaddr_pridata_400>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <1>;
@@ -137,6 +138,7 @@
 
 	pll-data = <0x03000101 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&pridata 0x400>;
 	nvmem-cells = <&macaddr_pridata_400>;
 	nvmem-cell-names = "mac-address";
 

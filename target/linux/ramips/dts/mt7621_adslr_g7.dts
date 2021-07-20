@@ -101,6 +101,7 @@
 };
 
 &gmac0 {
+	mtd-mac-address = <&factory 0xe00c>;
 	nvmem-cells = <&macaddr_factory_e00c>;
 	nvmem-cell-names = "mac-address";
 };
@@ -130,6 +131,7 @@
 		port@4 {
 			status = "okay";
 			label = "wan";
+			mtd-mac-address = <&factory 0xe00c>;
 			nvmem-cells = <&macaddr_factory_e00c>;
 			nvmem-cell-names = "mac-address";
 			mac-address-increment = <1>;

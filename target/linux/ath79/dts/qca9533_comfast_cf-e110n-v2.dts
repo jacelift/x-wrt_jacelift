@@ -134,11 +134,13 @@
 
 	phy-handle = <&swphy4>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 };
 
 &eth1 {
+	mtd-mac-address = <&art 0x1002>;
 	nvmem-cells = <&macaddr_art_1002>;
 	nvmem-cell-names = "mac-address";
 
@@ -151,6 +153,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 };

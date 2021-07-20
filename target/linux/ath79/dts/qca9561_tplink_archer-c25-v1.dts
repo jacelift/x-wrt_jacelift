@@ -172,6 +172,7 @@
 
 	phy-handle = <&swphy4>;
 
+	mtd-mac-address = <&info 0x8>;
 	nvmem-cells = <&macaddr_info_8>;
 	nvmem-cell-names = "mac-address";
 };
@@ -179,6 +180,7 @@
 &eth1 {
 	status = "okay";
 
+	mtd-mac-address = <&info 0x8>;
 	nvmem-cells = <&macaddr_info_8>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <1>;
@@ -188,6 +190,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&info 0x8>;
 	nvmem-cells = <&macaddr_info_8>;
 	nvmem-cell-names = "mac-address";
 };

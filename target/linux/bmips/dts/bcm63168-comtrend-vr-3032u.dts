@@ -44,6 +44,7 @@
 &ethernet {
 	status = "okay";
 
+	mtd-mac-address = <&cferom 0x6a0>;
 	nvmem-cells = <&macaddr_cferom_6a0>;
 	nvmem-cell-names = "mac-address";
 };

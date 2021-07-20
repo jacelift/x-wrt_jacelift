@@ -103,6 +103,7 @@
 &eth0 {
 	status = "okay";
 	phy-mode = "mii";
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 	fixed-link {
@@ -114,6 +115,7 @@
 &wmac {
 	status = "okay";
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 };

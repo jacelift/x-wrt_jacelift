@@ -135,6 +135,7 @@
 
 &gsw {
 	phy-mode = "rgmii";
+	mtd-mac-address = <&boardconfig 0x10024>;
 	nvmem-cells = <&macaddr_boardconfig_10024>;
 	nvmem-cell-names = "mac-address";
 };

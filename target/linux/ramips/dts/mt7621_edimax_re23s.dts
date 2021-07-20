@@ -137,6 +137,7 @@
 };
 
 &gmac0 {
+	mtd-mac-address = <&factory 0x8004>;
 	nvmem-cells = <&macaddr_factory_8004>;
 	nvmem-cell-names = "mac-address";
 };

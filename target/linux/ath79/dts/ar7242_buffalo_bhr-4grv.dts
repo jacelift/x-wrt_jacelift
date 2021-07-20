@@ -15,6 +15,7 @@
 };
 
 &eth0 {
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 };

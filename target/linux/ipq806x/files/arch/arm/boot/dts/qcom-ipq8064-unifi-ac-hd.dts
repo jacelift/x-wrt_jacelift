@@ -250,6 +250,7 @@
 	phy-mode = "sgmii";
 	qcom,id = <1>;
 
+	mtd-mac-address = <&eeprom 0x6>;
 	nvmem-cells = <&macaddr_eeprom_6>;
 	nvmem-cell-names = "mac-address";
 };
@@ -262,6 +263,7 @@
 	phy-mode = "sgmii";
 	qcom,id = <2>;
 
+	mtd-mac-address = <&eeprom 0x0>;
 	nvmem-cells = <&macaddr_eeprom_0>;
 	nvmem-cell-names = "mac-address";
 };

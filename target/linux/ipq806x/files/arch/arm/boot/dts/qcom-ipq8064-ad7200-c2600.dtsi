@@ -288,6 +288,7 @@
 	pinctrl-0 = <&rgmii2_pins>;
 	pinctrl-names = "default";
 
+	mtd-mac-address = <&defaultmac 0x8>;
 	nvmem-cells = <&macaddr_defaultmac_8>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <1>;
@@ -303,6 +304,7 @@
 	phy-mode = "sgmii";
 	qcom,id = <2>;
 
+	mtd-mac-address = <&defaultmac 0x8>;
 	nvmem-cells = <&macaddr_defaultmac_8>;
 	nvmem-cell-names = "mac-address";
 

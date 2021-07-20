@@ -49,6 +49,7 @@
 };
 
 &ethernet {
+	mtd-mac-address = <&uboot 0x1fc20>;
 	nvmem-cells = <&macaddr_uboot_1fc20>;
 	nvmem-cell-names = "mac-address";
 };

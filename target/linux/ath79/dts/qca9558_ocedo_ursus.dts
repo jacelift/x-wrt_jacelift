@@ -95,6 +95,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 };
@@ -114,6 +115,7 @@
 
 &eth0 {
 	status = "okay";
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 
@@ -134,6 +136,7 @@
 
 &eth1 {
 	status = "okay";
+	mtd-mac-address = <&art 0x12>;
 	nvmem-cells = <&macaddr_art_12>;
 	nvmem-cell-names = "mac-address";
 	phy-handle = <&phy2>;

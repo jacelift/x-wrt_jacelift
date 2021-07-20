@@ -201,6 +201,7 @@
 
 	pll-data = <0x03000101 0x00000101 0x00001919>;
 
+	mtd-mac-address = <&caldata 0x0>;
 	nvmem-cells = <&macaddr_caldata_0>;
 	nvmem-cell-names = "mac-address";
 
@@ -211,6 +212,7 @@
 &wmac {
 	status = "okay";
 
+	mtd-mac-address = <&caldata 0x0>;
 	nvmem-cells = <&macaddr_caldata_0>;
 	nvmem-cell-names = "mac-address";
 	qca,no-eeprom;
@@ -223,6 +225,7 @@
 		/* chip is AR9580, override bogus PCI ID 168c:abcd */
 		compatible = "pci168c,0033";
 		reg = <0x0000 0 0 0 0>;
+		mtd-mac-address = <&caldata 0xc>;
 		nvmem-cells = <&macaddr_caldata_c>;
 		nvmem-cell-names = "mac-address";
 		qca,no-eeprom;

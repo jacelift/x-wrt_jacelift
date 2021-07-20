@@ -169,6 +169,7 @@
 				label = "lan0";
 				phy-handle = <&switch0phy1>;
 
+				mtd-mac-address = <&factory 0x6>;
 				nvmem-cells = <&macaddr_factory_6>;
 				nvmem-cell-names = "mac-address";
 			};
@@ -178,6 +179,7 @@
 				label = "lan1";
 				phy-handle = <&switch0phy2>;
 
+				mtd-mac-address = <&factory 0x6>;
 				nvmem-cells = <&macaddr_factory_6>;
 				nvmem-cell-names = "mac-address";
 			};
@@ -201,6 +203,7 @@
 };
 
 &eth0 {
+	mtd-mac-address = <&factory 0x0>;
 	nvmem-cells = <&macaddr_factory_0>;
 	nvmem-cell-names = "mac-address";
 	phy-mode = "rgmii-id";

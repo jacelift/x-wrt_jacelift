@@ -103,6 +103,7 @@
 
 	ath9k0: wifi@0,11 { /* 2.4 GHz */
 		compatible = "pci168c,0029";
+		mtd-mac-address = <&hwinfo 0x1c>;
 		nvmem-cells = <&macaddr_hwinfo_1c>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <1>;
@@ -113,6 +114,7 @@
 
 	ath9k1: wifi@0,12 { /* 5 GHz */
 		compatible = "pci168c,0029";
+		mtd-mac-address = <&hwinfo 0x1c>;
 		nvmem-cells = <&macaddr_hwinfo_1c>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <2>;
@@ -134,6 +136,7 @@
 
 &eth0 {
 	status = "okay";
+	mtd-mac-address = <&hwinfo 0x1c>;
 	nvmem-cells = <&macaddr_hwinfo_1c>;
 	nvmem-cell-names = "mac-address";
 

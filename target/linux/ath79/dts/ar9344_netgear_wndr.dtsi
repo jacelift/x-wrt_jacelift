@@ -219,6 +219,7 @@
 	/* default for ar934x, except for 1000M */
 	pll-data = <0x06000000 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&caldata 0x0>;
 	nvmem-cells = <&macaddr_caldata_0>;
 	nvmem-cell-names = "mac-address";
 
@@ -245,6 +246,7 @@
 &wmac {
 	status = "okay";
 
+	mtd-mac-address = <&caldata 0x0>;
 	nvmem-cells = <&macaddr_caldata_0>;
 	nvmem-cell-names = "mac-address";
 	qca,no-eeprom;
@@ -256,6 +258,7 @@
 	ath9k: wifi@0,0 {
 		compatible = "pci168c,0033";
 		reg = <0x0000 0 0 0 0>;
+		mtd-mac-address = <&caldata 0xc>;
 		nvmem-cells = <&macaddr_caldata_c>;
 		nvmem-cell-names = "mac-address";
 		qca,no-eeprom;

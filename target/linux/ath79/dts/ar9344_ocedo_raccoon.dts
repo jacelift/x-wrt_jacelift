@@ -129,6 +129,7 @@
 	ath9k: wifi@0,0 {
 		compatible = "pci168c,0030";
 		reg = <0x0000 0 0 0 0>;
+		mtd-mac-address = <&art 0xc>;
 		nvmem-cells = <&macaddr_art_c>;
 		nvmem-cell-names = "mac-address";
 		qca,no-eeprom;
@@ -141,6 +142,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 };
@@ -160,6 +162,7 @@
 
 	pll-data = <0x06000000 0x00000101 0x00001313>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 

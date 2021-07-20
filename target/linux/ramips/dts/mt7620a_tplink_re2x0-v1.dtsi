@@ -72,12 +72,14 @@
 };
 
 &ethernet {
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 };
 
 &wmac {
 	ralink,mtd-eeprom = <&radio 0x0>;
+	mtd-mac-address = <&uboot 0x1fc00>;
 	nvmem-cells = <&macaddr_uboot_1fc00>;
 	nvmem-cell-names = "mac-address";
 };
@@ -90,6 +92,7 @@
 	mt76@0,0 {
 		reg = <0x0000 0 0 0 0>;
 		mediatek,mtd-eeprom = <&radio 0x8000>;
+		mtd-mac-address = <&uboot 0x1fc00>;
 		nvmem-cells = <&macaddr_uboot_1fc00>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <2>;

@@ -153,6 +153,7 @@
 };
 
 &eth0 {
+	mtd-mac-address = <&art 0x120c>;
 	nvmem-cells = <&macaddr_art_120c>;
 	nvmem-cell-names = "mac-address";
 };
@@ -160,6 +161,7 @@
 &eth1 {
 	status = "okay";
 
+	mtd-mac-address = <&art 0x120c>;
 	nvmem-cells = <&macaddr_art_120c>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <1>;
@@ -172,6 +174,7 @@
 		compatible = "pci168c,002a";
 		reg = <0x0000 0 0 0 0>;
 		qca,no-eeprom;
+		mtd-mac-address = <&art 0x120c>;
 		nvmem-cells = <&macaddr_art_120c>;
 		nvmem-cell-names = "mac-address";
 		#gpio-cells = <2>;

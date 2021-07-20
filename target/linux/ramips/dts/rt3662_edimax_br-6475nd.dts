@@ -139,6 +139,7 @@
 
 &ethernet {
 	status = "okay";
+	mtd-mac-address = <&devdata 0xd>;
 	nvmem-cells = <&macaddr_devdata_d>;
 	nvmem-cell-names = "mac-address";
 

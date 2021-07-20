@@ -94,6 +94,7 @@
 &eth1 {
 	status = "okay";
 
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 };

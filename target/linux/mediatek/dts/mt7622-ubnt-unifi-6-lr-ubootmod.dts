@@ -49,6 +49,7 @@
 
 &wmac {
 	mediatek,mtd-eeprom = <&factory 0x0>;
+	mtd-mac-address = <&eeprom 0x0>;
 	nvmem-cells = <&macaddr_eeprom_0>;
 	nvmem-cell-names = "mac-address";
 	status = "okay";
@@ -58,6 +59,7 @@
 	wifi@0,0 {
 		reg = <0x0 0 0 0 0>;
 		mediatek,mtd-eeprom = <&factory 0x20000>;
+		mtd-mac-address = <&eeprom 0x6>;
 		nvmem-cells = <&macaddr_eeprom_6>;
 		nvmem-cell-names = "mac-address";
 		ieee80211-freq-limit = <5000000 6000000>;
@@ -65,6 +67,7 @@
 };
 
 &gmac0 {
+	mtd-mac-address = <&eeprom 0x0>;
 	nvmem-cells = <&macaddr_eeprom_0>;
 	nvmem-cell-names = "mac-address";
 };

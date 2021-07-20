@@ -130,6 +130,7 @@
 
 	pll-data = <0x02000000 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&art 0x1002>;
 	nvmem-cells = <&macaddr_art_1002>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <2>;

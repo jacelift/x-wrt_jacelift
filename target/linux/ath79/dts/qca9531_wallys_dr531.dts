@@ -76,6 +76,7 @@
 	status = "okay";
 
 	phy-handle = <&swphy4>;
+	mtd-mac-address = <&env 0xf818>;
 	nvmem-cells = <&macaddr_env_f818>;
 	nvmem-cell-names = "mac-address";
 };
@@ -85,6 +86,7 @@
 	 * (GMAC0 -> eth0, GMAC1 -> eth1, same as in old ar71xx target) */
 	compatible = "qca,qca9530-eth", "syscon", "simple-mfd";
 
+	mtd-mac-address = <&env 0xf810>;
 	nvmem-cells = <&macaddr_env_f810>;
 	nvmem-cell-names = "mac-address";
 };

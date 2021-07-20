@@ -119,6 +119,7 @@
 		enet0: ethernet@b0000 {
 			phy-handle = <&phy0>;
 			phy-connection-type = "rgmii-id";
+			mtd-mac-address = <&uboot 0x4fc00>;
 			nvmem-cells = <&macaddr_uboot_4fc00>;
 			nvmem-cell-names = "mac-address";
 		};

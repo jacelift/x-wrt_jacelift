@@ -247,6 +247,7 @@
 	pll-data = <0x03000101 0x00000101 0x00001919>;
 
 	phy-mode = "sgmii";
+	mtd-mac-address = <&info 0x8>;
 	nvmem-cells = <&macaddr_info_8>;
 	nvmem-cell-names = "mac-address";
 	phy-handle = <&phy0>;
@@ -256,6 +257,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&info 0x8>;
 	nvmem-cells = <&macaddr_info_8>;
 	nvmem-cell-names = "mac-address";
 };

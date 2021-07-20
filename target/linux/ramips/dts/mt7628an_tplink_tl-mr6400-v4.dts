@@ -83,11 +83,13 @@
 };
 
 &wmac {
+	mtd-mac-address = <&factory 0x1f100>;
 	nvmem-cells = <&macaddr_factory_1f100>;
 	nvmem-cell-names = "mac-address";
 };
 
 &ethernet {
+	mtd-mac-address = <&factory 0x1f100>;
 	nvmem-cells = <&macaddr_factory_1f100>;
 	nvmem-cell-names = "mac-address";
 };

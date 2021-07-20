@@ -96,6 +96,7 @@
 &gsw {
 	phy-mode = "rmii";
 	phy-handle = <&phy0>;
+	mtd-mac-address = <&ath9k_cal 0xa91>;
 	nvmem-cells = <&macaddr_ath9k_cal_a91>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <(-2)>;

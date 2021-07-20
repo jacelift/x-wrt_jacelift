@@ -94,6 +94,7 @@
 };
 
 &ethernet {
+	mtd-mac-address = <&devdata 0x4004>;
 	nvmem-cells = <&macaddr_devdata_4004>;
 	nvmem-cell-names = "mac-address";
 };

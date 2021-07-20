@@ -165,6 +165,7 @@
 			status = "okay";
 			phy-handle = <&phy0>;
 			phy-connection-type = "rgmii-id";
+			mtd-mac-address = <&hwinfo 0x0>;
 			nvmem-cells = <&macaddr_hwinfo_0>;
 			nvmem-cell-names = "mac-address";
 		};
@@ -177,6 +178,7 @@
 			status = "okay";
 			phy-handle = <&phy1>;
 			phy-connection-type = "rgmii-id";
+			mtd-mac-address = <&hwinfo 0x0>;
 			nvmem-cells = <&macaddr_hwinfo_0>;
 			nvmem-cell-names = "mac-address";
 			mac-address-increment = <1>;

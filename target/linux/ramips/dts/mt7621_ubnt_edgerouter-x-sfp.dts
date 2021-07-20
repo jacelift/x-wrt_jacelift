@@ -66,6 +66,7 @@
 			label = "eth5";
 			phy-handle = <&ephy7>;
 			phy-mode = "rgmii-rxid";
+			mtd-mac-address = <&factory 0x22>;
 			nvmem-cells = <&macaddr_factory_22>;
 			nvmem-cell-names = "mac-address";
 			mac-address-increment = <5>;

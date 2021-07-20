@@ -107,6 +107,7 @@
 &eth0 {
 	status = "okay";
 
+	mtd-mac-address = <&info 0x0>;
 	nvmem-cells = <&macaddr_info_0>;
 	nvmem-cell-names = "mac-address";
 	phy-mode = "sgmii";

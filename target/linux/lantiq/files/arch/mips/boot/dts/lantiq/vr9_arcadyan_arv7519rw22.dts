@@ -94,6 +94,7 @@
 };
 
 &eth0 {
+	mtd-mac-address = <&boardconfig 0x16>;
 	nvmem-cells = <&macaddr_boardconfig_16>;
 	nvmem-cell-names = "mac-address";
 };

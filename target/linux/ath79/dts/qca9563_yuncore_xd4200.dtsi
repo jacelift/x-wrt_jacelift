@@ -26,6 +26,7 @@
 
 	pll-data = <0x03000101 0x00000101 0x00001919>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 	phy-mode = "sgmii";

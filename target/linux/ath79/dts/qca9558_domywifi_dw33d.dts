@@ -206,6 +206,7 @@
 &eth0 {
 	status = "okay";
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 	pll-data = <0x56000000 0x00000101 0x00001616>;
@@ -215,6 +216,7 @@
 &eth1 {
 	status = "okay";
 
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 	pll-data = <0x03000101 0x00000101 0x00001616>;
@@ -228,6 +230,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0xc>;
 	nvmem-cells = <&macaddr_art_c>;
 	nvmem-cell-names = "mac-address";
 };

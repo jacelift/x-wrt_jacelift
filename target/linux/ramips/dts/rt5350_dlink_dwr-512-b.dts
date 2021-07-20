@@ -135,6 +135,7 @@
 };
 
 &ethernet {
+	mtd-mac-address = <&config 0xe07e>;
 	nvmem-cells = <&macaddr_config_e07e>;
 	nvmem-cell-names = "mac-address";
 };
@@ -142,6 +143,7 @@
 &wmac {
 	ralink,mtd-eeprom = <&config 0xe08a>;
 	ralink,led-polarity = <1>;
+	mtd-mac-address = <&config 0xe07e>;
 	nvmem-cells = <&macaddr_config_e07e>;
 	nvmem-cell-names = "mac-address";
 };

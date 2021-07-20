@@ -118,6 +118,7 @@
 };
 
 &ethernet {
+	mtd-mac-address = <&devdata 0x2e>;
 	nvmem-cells = <&macaddr_devdata_2e>;
 	nvmem-cell-names = "mac-address";
 };

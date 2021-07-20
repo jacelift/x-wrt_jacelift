@@ -85,6 +85,7 @@
 
 &ethernet {
 	status = "okay";
+	mtd-mac-address = <&factory 0x2004>;
 	nvmem-cells = <&macaddr_factory_2004>;
 	nvmem-cell-names = "mac-address";
 

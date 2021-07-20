@@ -8,11 +8,13 @@
 };
 
 &gmac0 {
+	mtd-mac-address = <&factory 0xfff4>;
 	nvmem-cells = <&macaddr_factory_fff4>;
 	nvmem-cell-names = "mac-address";
 };
 
 &wan {
+	mtd-mac-address = <&factory 0xfffa>;
 	nvmem-cells = <&macaddr_factory_fffa>;
 	nvmem-cell-names = "mac-address";
 };
@@ -50,6 +52,7 @@
 };
 
 &wifi {
+	mtd-mac-address = <&factory 0x4>;
 	nvmem-cells = <&macaddr_factory_4>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <(-1)>;

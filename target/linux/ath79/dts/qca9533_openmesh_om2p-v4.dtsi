@@ -132,6 +132,7 @@
 
 	phy-handle = <&swphy4>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 };
@@ -142,6 +143,7 @@
 	 */
 	compatible = "qca,qca9530-eth", "syscon", "simple-mfd";
 
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 };
@@ -150,6 +152,7 @@
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <2>;

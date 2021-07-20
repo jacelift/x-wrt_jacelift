@@ -358,6 +358,7 @@
 	pinctrl-0 = <&rgmii2_pins>;
 	pinctrl-names = "default";
 
+	mtd-mac-address = <&art 0x6>;
 	nvmem-cells = <&macaddr_art_6>;
 	nvmem-cell-names = "mac-address";
 
@@ -379,6 +380,7 @@
 	qcom,irq = <258>;
 	mdiobus = <&mdio0>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 
@@ -427,6 +429,7 @@
 			compatible = "pci168c,0046";
 			reg = <0x00010000 0 0 0 0>;
 
+			mtd-mac-address = <&art 0x6>;
 			nvmem-cells = <&macaddr_art_6>;
 			nvmem-cell-names = "mac-address";
 			mac-address-increment = <(1)>;
@@ -448,6 +451,7 @@
 			compatible = "pci168c,0046";
 			reg = <0x00010000 0 0 0 0>;
 
+			mtd-mac-address = <&art 0x6>;
 			nvmem-cells = <&macaddr_art_6>;
 			nvmem-cell-names = "mac-address";
 			mac-address-increment = <(2)>;

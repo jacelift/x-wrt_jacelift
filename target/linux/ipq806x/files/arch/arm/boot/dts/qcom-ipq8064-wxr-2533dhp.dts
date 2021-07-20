@@ -229,6 +229,7 @@
 	pinctrl-0 = <&rgmii2_pins>;
 	pinctrl-names = "default";
 
+	mtd-mac-address = <&ART 0x6>;
 	nvmem-cells = <&macaddr_ART_6>;
 	nvmem-cell-names = "mac-address";
 
@@ -244,6 +245,7 @@
 	phy-mode = "sgmii";
 	qcom,id = <2>;
 
+	mtd-mac-address = <&ART 0x0>;
 	nvmem-cells = <&macaddr_ART_0>;
 	nvmem-cell-names = "mac-address";
 

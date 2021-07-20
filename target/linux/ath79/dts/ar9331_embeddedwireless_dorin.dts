@@ -93,6 +93,7 @@
 &eth1 {
 	status = "okay";
 
+	mtd-mac-address = <&art 0x1002>;
 	nvmem-cells = <&macaddr_art_1002>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment-byte = <3>;

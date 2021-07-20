@@ -118,6 +118,7 @@
 	ath9k: wifi@0,0 {
 		compatible = "168c,0030";
 		reg = <0x0000 0 0 0 0>;
+		mtd-mac-address = <&art 0x0>;
 		nvmem-cells = <&macaddr_art_0>;
 		nvmem-cell-names = "mac-address";
 		mac-address-increment = <(-2)>;
@@ -134,6 +135,7 @@
 
 	qca,disable-2ghz;
 	mtd-cal-data = <&art 0x1000>;
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 	mac-address-increment = <(-1)>;
@@ -156,6 +158,7 @@
 	/* default for ar934x, except for 1000M */
 	pll-data = <0x06000000 0x00000101 0x00001616>;
 
+	mtd-mac-address = <&art 0x0>;
 	nvmem-cells = <&macaddr_art_0>;
 	nvmem-cell-names = "mac-address";
 
