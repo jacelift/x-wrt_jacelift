@@ -1,0 +1,278 @@
+From 4ac8fff1cdaefe8338aac1dd157e402ee2c29cb0 Mon Sep 17 00:00:00 2001
+From: Chen Minqiang <ptpt52@gmail.com>
+Date: Wed, 24 Nov 2021 15:03:29 +0800
+Subject: [PATCH] hwnat: port account support for mt7621
+
+---
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c |  3 +
+ drivers/net/ethernet/mediatek/mtk_eth_soc.h |  1 +
+ drivers/net/ethernet/mediatek/mtk_offload.c | 93 ++++++++++++++++++++-
+ drivers/net/ethernet/mediatek/mtk_ppe.c     | 32 ++++++-
+ drivers/net/ethernet/mediatek/mtk_ppe.h     | 10 +++
+ 5 files changed, 136 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/ethernet/mediatek/mtk_eth_soc.c b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+index c46cdec..1141ca9 100644
+--- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
++++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+@@ -3251,6 +3251,7 @@ static int mtk_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ err_deinit_mdio:
++	mtk_flow_offload_exit(eth);
+ 	mtk_mdio_cleanup(eth);
+ err_free_dev:
+ 	mtk_free_dev(eth);
+@@ -3266,6 +3267,8 @@ static int mtk_remove(struct platform_device *pdev)
+ 	struct mtk_mac *mac;
+ 	int i;
+ 
++	mtk_flow_offload_exit(eth);
++
+ 	/* stop all devices to make sure that dma is properly shut down */
+ 	for (i = 0; i < MTK_MAC_COUNT; i++) {
+ 		if (!eth->netdev[i])
+diff --git a/drivers/net/ethernet/mediatek/mtk_eth_soc.h b/drivers/net/ethernet/mediatek/mtk_eth_soc.h
+index 0b585d4..edb152d 100644
+--- a/drivers/net/ethernet/mediatek/mtk_eth_soc.h
++++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.h
+@@ -999,6 +999,7 @@ int mtk_gmac_sgmii_path_setup(struct mtk_eth *eth, int mac_id);
+ int mtk_gmac_gephy_path_setup(struct mtk_eth *eth, int mac_id);
+ int mtk_gmac_rgmii_path_setup(struct mtk_eth *eth, int mac_id);
+ 
++void mtk_flow_offload_exit(struct mtk_eth *eth);
+ int mtk_flow_offload_init(struct mtk_eth *eth);
+ int mtk_flow_offload_add(struct mtk_eth *eth,
+ 			 enum flow_offload_type type,
+diff --git a/drivers/net/ethernet/mediatek/mtk_offload.c b/drivers/net/ethernet/mediatek/mtk_offload.c
+index 8931c80..0aa5baa 100644
+--- a/drivers/net/ethernet/mediatek/mtk_offload.c
++++ b/drivers/net/ethernet/mediatek/mtk_offload.c
+@@ -10,9 +10,52 @@
+  *   Copyright (C) 2018 John Crispin <john@phrozen.org>
+  */
+ 
++#include <linux/version.h>
++#include <linux/kernel.h>
++#include <linux/timer.h>
+ #include <net/netfilter/nf_flow_table.h>
+ #include "mtk_eth_soc.h"
+ 
++static struct timer_list ag_timer;
++static void *ag_timer_eth =  NULL;
++
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
++static void mtk_ppe_account_group_walk(unsigned long ignore)
++#else
++static void mtk_ppe_account_group_walk(struct timer_list *ignore)
++#endif
++{
++	u32 i;
++	unsigned long long bytes, packets;
++	struct mtk_ppe_account_group *ag;
++	struct mtk_eth *eth = (struct mtk_eth *)ag_timer_eth;
++	for (i = 1; i < 64; i++) {
++		ag = mtk_ppe_account_group_get(i);
++		if (ag->state == MTK_FOE_STATE_BIND) {
++			bytes = mtk_r32(eth, 0x2000 + i * 16);
++			bytes += ((unsigned long long)mtk_r32(eth, 0x2000 + i * 16 + 4)) << 32;
++			packets = mtk_r32(eth, 0x2000 + i * 16 + 8);
++			if (bytes > 0 || packets > 0) {
++				ag->jiffies = jiffies;
++				ag->bytes += bytes;
++				ag->packets += packets;
++			}
++
++			//printk("hnat-walk-ag[%u]: hash=%u bytes=%llu packets=%llu\n", i, ag->hash, bytes, packets);
++			if (time_before(ag->jiffies + 15 * HZ, jiffies)) {
++				ag->state = MTK_FOE_STATE_INVALID;
++				//printk("hnat-walk-ag[%u]: hash=%u timeout\n", i, ag->hash);
++			}
++		} else if (ag->state == MTK_FOE_STATE_FIN) {
++			if (time_before(ag->jiffies + 15 * HZ, jiffies)) {
++				ag->state = MTK_FOE_STATE_INVALID;
++			}
++		}
++	}
++
++	mod_timer(&ag_timer, jiffies + HZ * 1);
++}
++
+ static int
+ mtk_offload_prepare_v4(struct mtk_eth *eth, struct mtk_foe_entry *entry,
+ 		       struct flow_offload_tuple *s_tuple,
+@@ -59,6 +102,8 @@ int mtk_flow_offload_add(struct mtk_eth *eth,
+ 	struct mtk_foe_entry orig, reply;
+ 	int ohash, rhash;
+ 	u32 timestamp;
++	u32 ag_idx;
++	struct mtk_ppe_account_group *ag;
+ 
+ 	if (otuple->l4proto != IPPROTO_TCP && otuple->l4proto != IPPROTO_UDP)
+ 		return -EINVAL;
+@@ -98,6 +143,21 @@ int mtk_flow_offload_add(struct mtk_eth *eth,
+ 		return -EINVAL;
+ 	}
+ 
++	//sync ag hash with foe hash
++	ag_idx = FIELD_GET(MTK_FOE_IB2_PORT_AG, orig.ipv4.ib2);
++	ag = mtk_ppe_account_group_get(ag_idx);
++	if (ag) {
++		ag->hash = ohash;
++		ag->state = MTK_FOE_STATE_BIND;
++	}
++
++	ag_idx = FIELD_GET(MTK_FOE_IB2_PORT_AG, reply.ipv4.ib2);
++	ag = mtk_ppe_account_group_get(ag_idx);
++	if (ag) {
++		ag->hash = rhash;
++		ag->state = MTK_FOE_STATE_BIND;
++	}
++
+ 	rcu_assign_pointer(eth->foe_flow_table[ohash], flow);
+ 	rcu_assign_pointer(eth->foe_flow_table[rhash], flow);
+ 
+@@ -116,10 +176,22 @@ static void mtk_offload_keepalive(struct mtk_eth *eth, unsigned int hash)
+ 	rcu_read_lock();
+ 	flow = rcu_dereference(eth->foe_flow_table[hash]);
+ 	if (flow) {
+-		void (*func)(unsigned int);
++		void (*func)(unsigned int, unsigned long long, unsigned long long);
+ 		func = (void *)flow->priv;
+ 		if (func) {
+-			func(hash);
++			struct mtk_foe_entry *entry = &eth->ppe.foe_table[hash];
++			u32 ag_idx = FIELD_GET(MTK_FOE_IB2_PORT_AG, entry->ipv4.ib2);
++			struct mtk_ppe_account_group *ag = mtk_ppe_account_group_get(ag_idx);
++			if (ag && ag->state == MTK_FOE_STATE_BIND && ag->hash == hash) {
++				unsigned long long bytes = ag->bytes;
++				unsigned long long packets = ag->packets;
++				func(hash, bytes, packets);
++				//printk("hnat-ag[%u]: hash=%u bytes=%llu packets=%llu\n", ag_idx, hash, bytes, packets);
++				ag->bytes -= bytes;
++				ag->packets -= packets;
++			} else {
++				func(hash, 0, 0);
++			}
+ 		}
+ 	}
+ 	rcu_read_unlock();
+@@ -159,5 +231,22 @@ int mtk_flow_offload_init(struct mtk_eth *eth)
+ 	if (!eth->foe_flow_table)
+ 		return -ENOMEM;
+ 
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
++	init_timer(&ag_timer);
++	ag_timer.data = 0;
++	ag_timer.function = mtk_ppe_account_group_walk;
++#else
++	timer_setup(&ag_timer, mtk_ppe_account_group_walk, 0);
++#endif
++	ag_timer_eth = eth;
++	mod_timer(&ag_timer, jiffies + 8 * HZ);
+ 	return 0;
+ }
++
++void mtk_flow_offload_exit(struct mtk_eth *eth)
++{
++	del_timer(&ag_timer);
++	if (eth->foe_flow_table) {
++		devm_kfree(eth->dev, eth->foe_flow_table);
++	}
++}
+diff --git a/drivers/net/ethernet/mediatek/mtk_ppe.c b/drivers/net/ethernet/mediatek/mtk_ppe.c
+index 87dc59d..2eeea22 100644
+--- a/drivers/net/ethernet/mediatek/mtk_ppe.c
++++ b/drivers/net/ethernet/mediatek/mtk_ppe.c
+@@ -10,6 +10,31 @@
+ #include "mtk_ppe.h"
+ #include "mtk_ppe_regs.h"
+ 
++static struct mtk_ppe_account_group mtk_ppe_account_group_entry[64];
++
++static u32 mtk_ppe_account_group_alloc(void)
++{
++	u32 i;
++	for (i = 1; i < 64; i++) {
++		if (mtk_ppe_account_group_entry[i].state == MTK_FOE_STATE_INVALID) {
++			mtk_ppe_account_group_entry[i].state = MTK_FOE_STATE_FIN; /* mark FIN as in use begin */
++			mtk_ppe_account_group_entry[i].bytes = 0;
++			mtk_ppe_account_group_entry[i].packets = 0;
++			mtk_ppe_account_group_entry[i].jiffies = jiffies;
++			return i;
++		}
++	}
++	return 0;
++}
++
++struct mtk_ppe_account_group *mtk_ppe_account_group_get(u32 idx)
++{
++	if (idx > 0 && idx < 64) {
++		return &mtk_ppe_account_group_entry[idx];
++	}
++	return NULL;
++}
++
+ static void ppe_w32(struct mtk_ppe *ppe, u32 reg, u32 val)
+ {
+ 	writel(val, ppe->base + reg);
+@@ -146,6 +171,7 @@ int mtk_foe_entry_prepare(struct mtk_foe_entry *entry, int type, int l4proto,
+ {
+ 	struct mtk_foe_mac_info *l2;
+ 	u32 ports_pad, val;
++	u32 port_ag = 0;
+ 
+ 	memset(entry, 0, sizeof(*entry));
+ 
+@@ -157,8 +183,10 @@ int mtk_foe_entry_prepare(struct mtk_foe_entry *entry, int type, int l4proto,
+ 	      MTK_FOE_IB1_BIND_KEEPALIVE;
+ 	entry->ib1 = val;
+ 
++	port_ag = mtk_ppe_account_group_alloc();
++
+ 	val = FIELD_PREP(MTK_FOE_IB2_PORT_MG, 0x3f) |
+-	      FIELD_PREP(MTK_FOE_IB2_PORT_AG, 0x1f) |
++	      FIELD_PREP(MTK_FOE_IB2_PORT_AG, port_ag) |
+ 	      FIELD_PREP(MTK_FOE_IB2_DEST_PORT, pse_port);
+ 
+ 	if (is_multicast_ether_addr(dest_mac))
+@@ -415,6 +443,8 @@ int mtk_ppe_start(struct mtk_ppe *ppe)
+ {
+ 	u32 val;
+ 
++	memset(mtk_ppe_account_group_entry, 0, sizeof(*mtk_ppe_account_group_entry) * 64);
++
+ 	mtk_ppe_init_foe_table(ppe);
+ 	ppe_w32(ppe, MTK_PPE_TB_BASE, ppe->foe_phys);
+ 
+diff --git a/drivers/net/ethernet/mediatek/mtk_ppe.h b/drivers/net/ethernet/mediatek/mtk_ppe.h
+index f3a479e..adbb931 100644
+--- a/drivers/net/ethernet/mediatek/mtk_ppe.h
++++ b/drivers/net/ethernet/mediatek/mtk_ppe.h
+@@ -245,6 +245,14 @@ struct mtk_ppe {
+ 	void *acct_table;
+ };
+ 
++struct mtk_ppe_account_group {
++	unsigned int hash;
++	unsigned int state;
++	unsigned long jiffies;
++	unsigned long long bytes;
++	unsigned long long packets;
++};
++
+ int mtk_ppe_init(struct mtk_ppe *ppe, struct device *dev, void __iomem *base,
+ 		 int version);
+ int mtk_ppe_start(struct mtk_ppe *ppe);
+@@ -257,6 +265,8 @@ mtk_foe_entry_clear(struct mtk_ppe *ppe, u16 hash)
+ 	dma_wmb();
+ }
+ 
++struct mtk_ppe_account_group *mtk_ppe_account_group_get(u32 idx);
++
+ int mtk_foe_entry_prepare(struct mtk_foe_entry *entry, int type, int l4proto,
+ 			  u8 pse_port, u8 *src_mac, u8 *dest_mac);
+ int mtk_foe_entry_set_ipv4_tuple(struct mtk_foe_entry *entry, bool orig,
+-- 
+2.17.1
+
